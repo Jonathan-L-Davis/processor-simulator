@@ -1,6 +1,6 @@
-#Processor Simulator
+# Processor Simulator
 
-##will add detail later, sry Alex
+## will add detail later, sry Alex
 
 ## 16 instructions
 
