@@ -25,12 +25,18 @@ void processor::print_registers(){
 
 int main( int argc, char** argv ){
 
-    test_memory_setting();
-    test_memory_getting();
-    test_move_instructions();
-    test_swap_instructions();
-    test_load_instructions();
-    test_store_instructions();
+    bool test_success = true;
+    test_success &= test_memory_setting();
+    test_success &= test_memory_getting();
+    test_success &= test_move_instructions();
+    test_success &= test_swap_instructions();
+    test_success &= test_load_instructions();
+    test_success &= test_store_instructions();
+
+    if(test_success)
+        std::cout << "All tests passed! :)\n";
+    else
+        std::cout << "Tests failed! :(\n";
 
 
     return 0;
