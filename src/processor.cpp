@@ -1,11 +1,19 @@
 #include "processor.h"
 
+/**
+-   Will add:
+-       interrupts
+-       control flow
+-       bit-wise ops
+-       arithmetic ops
+**/
 
 void processor::cycle(){
 
+    prefix:;//don't need this label (yet), will use for prefixes
     //read instruction
     uint8_t op_code = get_byte(program_counter);
-    program_counter++;//snaps to alignment of program counter if not aligned properly
+    program_counter++;
 
     switch( (op_code&0xF0)>> 4 ){
         case 0x0:{}break;
@@ -20,8 +28,7 @@ void processor::cycle(){
 
         case 0x5:{/** MEMORY **/
             switch(op_code&0xF){
-                ///MOVEX 3 bytes
-                case 0x0:{//MOVE1
+                case 0x0:{
                     move_1();
                 }break;
                 case 0x1:{
