@@ -5,7 +5,7 @@ Emulator for an abstract processor.
 <br>
 planned, not all implemented yet (most are not)<br>
 <br>
-/**--- MEMORY ---**/ (implemented, not finished)<br>
+/**--- MEMORY ---**/ (implemented, fail on improper position, will change to not read un needed bits soon.)<br>
 move_1<br>
 move_2<br>
 move_4<br>
