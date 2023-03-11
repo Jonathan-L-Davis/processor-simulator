@@ -2,75 +2,75 @@
 
 Emulator for an abstract processor.
 ### Instructions:
-
-planned, not all implemented yet (most are not)
-
-/**--- MEMORY ---**/ (implemented, not finished)
-move_1
-move_2
-move_4
-move_8
-swap_1
-swap_2
-swap_4
-swap_8
-load_1
-load_2
-load_4
-load_8
-store_1
-store_2
-store_4
-store_8
-
-/**--- Control Flow ---**/
-/// "Absolute" Jumps
-//relative to program start position
-absolute_jump
-absolute_jump_equal_0
-absolute_jump_not_equal_0
-absolute_jump_positive
-absolute_jump_negative
-absolute_jump_not_positive
-absolute_jump_not_negative
-absolute_jump_equal
-absolute_jump_not_equal
-absolute_jump_greater
-absolute_jump_less
-absolute_jump_greater_equal
-absolute_jump_less_equal
-/// Relative Jumps - may just be implemented via a flag for jumps
-// relative to jump instruction
-relative_jump
-relative_jump_equal_0
-relative_jump_not_equal_0
-relative_jump_positive
-relative_jump_negative
-relative_jump_not_positive
-relative_jump_not_negative
-relative_jump_equal
-relative_jump_not_equal
-relative_jump_greater
-relative_jump_less
-relative_jump_greater_equal
-relative_jump_less_equal
-
-/**--- Arithmetic ---**/
-add
-subtract
-increment
-decrement
-negate
-multiply
-divide
-
-/**--- Bit-Wise ---**/
-bit_and
-bit_or
-bit_nand
-bit_nor
-bit_xor
-shift_left
-shift_right
-rotate_left
+<br>
+planned, not all implemented yet (most are not)<br>
+<br>
+/**--- MEMORY ---**/ (implemented, not finished)<br>
+move_1<br>
+move_2<br>
+move_4<br>
+move_8<br>
+swap_1<br>
+swap_2<br>
+swap_4<br>
+swap_8<br>
+load_1<br>
+load_2<br>
+load_4<br>
+load_8<br>
+store_1<br>
+store_2<br>
+store_4<br>
+store_8<br>
+<br>
+/**--- Control Flow ---**/<br>
+/// "Absolute" Jumps<br>
+//relative to program start position<br>
+absolute_jump<br>
+absolute_jump_equal_0<br>
+absolute_jump_not_equal_0<br>
+absolute_jump_positive<br>
+absolute_jump_negative<br>
+absolute_jump_not_positive<br>
+absolute_jump_not_negative<br>
+absolute_jump_equal<br>
+absolute_jump_not_equal<br>
+absolute_jump_greater<br>
+absolute_jump_less<br>
+absolute_jump_greater_equal<br>
+absolute_jump_less_equal<br>
+/// Relative Jumps - may just be implemented via a flag for jumps<br>
+// relative to jump instruction<br>
+relative_jump<br>
+relative_jump_equal_0<br>
+relative_jump_not_equal_0<br>
+relative_jump_positive<br>
+relative_jump_negative<br>
+relative_jump_not_positive<br>
+relative_jump_not_negative<br>
+relative_jump_equal<br>
+relative_jump_not_equal<br>
+relative_jump_greater<br>
+relative_jump_less<br>
+relative_jump_greater_equal<br>
+relative_jump_less_equal<br>
+<br>
+/**--- Arithmetic ---**/<br>
+add<br>
+subtract<br>
+increment<br>
+decrement<br>
+negate<br>
+multiply<br>
+divide<br>
+<br>
+/**--- Bit-Wise ---**/<br>
+bit_and<br>
+bit_or<br>
+bit_nand<br>
+bit_nor<br>
+bit_xor<br>
+shift_left<br>
+shift_right<br>
+rotate_left<br>
 rotate_right
