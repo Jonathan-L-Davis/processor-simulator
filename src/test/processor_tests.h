@@ -7,6 +7,7 @@
 
 bool test_memory_setting();
 bool test_memory_getting();
+bool test_get_PC_bytes();
 
 bool test_memory_instructions();
 

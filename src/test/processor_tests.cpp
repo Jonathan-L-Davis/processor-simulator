@@ -1318,3 +1318,150 @@ bool test_memory_getting(){
 
     return test_success;
 }
+
+
+bool test_get_PC_bytes(){
+    bool test_success = true;
+
+    {
+        processor test_me;
+        test_me.program_counter = 0;
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0x02;
+        test_me.main_mem[2] = 0x03;
+        test_me.main_mem[3] = 0x04;
+        test_me.main_mem[4] = 0x05;
+        test_me.main_mem[5] = 0x06;
+        test_me.main_mem[6] = 0x07;
+        test_me.main_mem[7] = 0x08;
+
+        uint8_t byte = test_me.get_program_byte();
+
+        if( byte != 0x01){
+            std::cout << "Function \"get_program_byte()\" not working correctly!\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.program_counter = 0;
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0x02;
+        test_me.main_mem[2] = 0x03;
+        test_me.main_mem[3] = 0x04;
+        test_me.main_mem[4] = 0x05;
+        test_me.main_mem[5] = 0x06;
+        test_me.main_mem[6] = 0x07;
+        test_me.main_mem[7] = 0x08;
+
+        uint16_t dual = test_me.get_2_PC_bytes();
+
+        if( dual != 0x0102){
+            std::cout << "Function \"get_2_PC_bytes()\" not working correctly!\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.program_counter = 1;
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0x02;
+        test_me.main_mem[2] = 0x03;
+        test_me.main_mem[3] = 0x04;
+        test_me.main_mem[4] = 0x05;
+        test_me.main_mem[5] = 0x06;
+        test_me.main_mem[6] = 0x07;
+        test_me.main_mem[7] = 0x08;
+
+        uint16_t dual = test_me.get_2_PC_bytes();
+
+        if( dual != 0x0102){
+            std::cout << "Function \"get_2_PC_bytes()\" not working correctly!\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.program_counter = 0;
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0x02;
+        test_me.main_mem[2] = 0x03;
+        test_me.main_mem[3] = 0x04;
+        test_me.main_mem[4] = 0x05;
+        test_me.main_mem[5] = 0x06;
+        test_me.main_mem[6] = 0x07;
+        test_me.main_mem[7] = 0x08;
+
+        uint32_t quad = test_me.get_4_PC_bytes();
+
+        if( quad != 0x01020304){
+            std::cout << "Function \"get_4_PC_bytes()\" not working correctly!\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.program_counter = 1;
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0x02;
+        test_me.main_mem[2] = 0x03;
+        test_me.main_mem[3] = 0x04;
+        test_me.main_mem[4] = 0x05;
+        test_me.main_mem[5] = 0x06;
+        test_me.main_mem[6] = 0x07;
+        test_me.main_mem[7] = 0x08;
+
+        uint32_t quad = test_me.get_4_PC_bytes();
+
+        if( quad != 0x01020304){
+            std::cout << "Function \"get_4_PC_bytes()\" not working correctly!\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.program_counter = 0;
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0x02;
+        test_me.main_mem[2] = 0x03;
+        test_me.main_mem[3] = 0x04;
+        test_me.main_mem[4] = 0x05;
+        test_me.main_mem[5] = 0x06;
+        test_me.main_mem[6] = 0x07;
+        test_me.main_mem[7] = 0x08;
+
+        uint64_t oct = test_me.get_8_PC_bytes();
+
+        if( oct != 0x0102030405060708){
+            std::cout << "Function \"get_8_PC_bytes()\" not working correctly!\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.program_counter = 1;
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0x02;
+        test_me.main_mem[2] = 0x03;
+        test_me.main_mem[3] = 0x04;
+        test_me.main_mem[4] = 0x05;
+        test_me.main_mem[5] = 0x06;
+        test_me.main_mem[6] = 0x07;
+        test_me.main_mem[7] = 0x08;
+
+        uint64_t oct = test_me.get_8_PC_bytes();
+
+        if( oct != 0x0102030405060708){
+            std::cout << "Function \"get_8_PC_bytes()\" not working correctly!\n";
+            test_success = false;
+        }
+    }
+
+    return test_success;
+}

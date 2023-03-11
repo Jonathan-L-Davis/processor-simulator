@@ -110,21 +110,21 @@ uint8_t processor::get_program_byte(){
 }
 
 uint16_t processor::get_2_PC_bytes(){
-    uint16_t dual = get_byte(program_counter+sizeof(dual)-1);
+    uint16_t dual = get_2_bytes(program_counter);
     program_counter+=sizeof(dual);
     program_counter &= ~uint64_t(sizeof(dual)-1);
     return dual;//not always an opcode
 }
 
 uint32_t processor::get_4_PC_bytes(){
-    uint32_t quad = get_byte(program_counter+sizeof(quad)-1);
+    uint32_t quad = get_4_bytes(program_counter);
     program_counter+=sizeof(quad);
     program_counter &= ~uint64_t(sizeof(quad)-1);
     return quad;//not always an opcode
 }
 
 uint64_t processor::get_8_PC_bytes(){
-    uint64_t oct = get_byte(program_counter+sizeof(oct)-1);
+    uint64_t oct = get_8_bytes(program_counter);
     program_counter+=sizeof(oct);
     program_counter &= ~uint64_t(sizeof(oct)-1);
     return oct;//not always an opcode

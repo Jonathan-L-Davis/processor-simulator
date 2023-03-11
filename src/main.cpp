@@ -28,6 +28,7 @@ int main( int argc, char** argv ){
     bool test_success = true;
     test_success &= test_memory_setting();
     test_success &= test_memory_getting();
+    test_success &= test_get_PC_bytes();
     test_success &= test_move_instructions();
     test_success &= test_swap_instructions();
     test_success &= test_load_instructions();
