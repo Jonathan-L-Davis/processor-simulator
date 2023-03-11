@@ -349,3 +349,104 @@ void processor::store_8(){
     uint64_t value = registers[reg];
     set_8_bytes(address, value);
 }
+
+/** Control Flow **/
+
+/** Arithmetic **/
+
+/** Bit-Wise **/
+void processor::bit_and(){
+    uint8_t src_regs = get_program_byte();
+    uint8_t A = (src_regs >> 4)&0xF;
+    uint8_t B = src_regs&0xF;
+
+    uint8_t C = get_program_byte()&0xF;
+
+    registers[C] = registers[A]&registers[B];
+}
+
+void processor::bit_or(){
+    uint8_t src_regs = get_program_byte();
+    uint8_t A = (src_regs >> 4)&0xF;
+    uint8_t B = src_regs&0xF;
+
+    uint8_t C = get_program_byte()&0xF;
+
+    registers[C] = registers[A]|registers[B];
+}
+
+void processor::bit_nand(){
+    uint8_t src_regs = get_program_byte();
+    uint8_t A = (src_regs >> 4)&0xF;
+    uint8_t B = src_regs&0xF;
+
+    uint8_t C = get_program_byte()&0xF;
+
+    registers[C] = ~(registers[A]&registers[B]);
+}
+
+void processor::bit_nor(){
+    uint8_t src_regs = get_program_byte();
+    uint8_t A = (src_regs >> 4)&0xF;
+    uint8_t B = src_regs&0xF;
+
+    uint8_t C = get_program_byte()&0xF;
+
+    registers[C] = ~(registers[A]&registers[B]);
+}
+
+void processor::bit_xor(){
+    uint8_t src_regs = get_program_byte();
+    uint8_t A = (src_regs >> 4)&0xF;
+    uint8_t B = src_regs&0xF;
+
+    uint8_t C = get_program_byte()&0xF;
+
+    registers[C] = registers[A]^registers[B];
+}
+
+void processor::bit_not(){
+    uint8_t reg = get_program_byte();
+    uint8_t A = (reg >> 4)&0xF;
+    uint8_t B = reg&0xF;
+
+    registers[B] = ~registers[A];
+}
+
+void processor::shift_left(){
+    uint8_t reg = get_program_byte();
+    uint8_t shift_bits = get_program_byte();
+
+    uint8_t A = (reg >> 4)&0xF;
+    uint8_t B = reg&0xF;
+
+    if( shift_bits >= sizeof(uint64_t)*8 ){
+        registers[B] = 0;
+        return;
+    }
+
+    registers[B] = registers[A]<<(shift_bits&0x3F);
+}
+
+void processor::shift_right(){
+    uint8_t reg = get_program_byte();
+    uint8_t shift_bits = get_program_byte();
+
+    uint8_t A = (reg >> 4)&0xF;
+    uint8_t B = reg&0xF;
+
+    if( shift_bits >= sizeof(uint64_t)*8 ){
+        registers[B] = 0;
+        return;
+    }
+
+    registers[B] = registers[A]>>(shift_bits&0x3F);
+}
+
+void processor::rotate_left(){
+
+}
+
+void processor::rotate_right(){
+
+}

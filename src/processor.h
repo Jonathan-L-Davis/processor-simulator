@@ -89,6 +89,7 @@ struct processor{
     void bit_nand();
     void bit_nor();
     void bit_xor();
+    void bit_not();
     void shift_left();
     void shift_right();
     void rotate_left();
