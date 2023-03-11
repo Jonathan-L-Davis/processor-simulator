@@ -12,6 +12,9 @@ struct processor{
 
     void cycle();
     uint8_t get_program_byte();
+    uint16_t get_2_PC_bytes();
+    uint32_t get_4_PC_bytes();
+    uint64_t get_8_PC_bytes();
 
     uint8_t get_byte(uint64_t address);
     uint16_t get_2_bytes(uint64_t address);
