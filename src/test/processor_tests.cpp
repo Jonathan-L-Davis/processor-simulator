@@ -1149,6 +1149,276 @@ bool test_store_8(){
     return test_success;
 }
 
+bool test_bitwise(){
+    bool test_success = true;
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'FFFF'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF2;
+
+        test_me.bit_and();
+
+        if( test_me.registers[2] != 0xAAAA'AAAA'AAAA'AAAA ){
+            std::cout << "bit_and failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'FFFF'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF0;
+
+        test_me.bit_and();
+
+        if( test_me.registers[0] != 0xAAAA'AAAA'AAAA'AAAA ){
+            std::cout << "bit_and failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'FFFF'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF2;
+
+        test_me.bit_or();
+
+        if( test_me.registers[2] != 0xFFFF'FFFF'FFFF'FFFF ){
+            std::cout << "bit_or failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'FFFF'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF0;
+
+        test_me.bit_or();
+
+        if( test_me.registers[0] != 0xFFFF'FFFF'FFFF'FFFF ){
+            std::cout << "bit_or failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'FFFF'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF2;
+
+        test_me.bit_nand();
+
+        if( test_me.registers[2] != 0x5555'5555'5555'5555 ){
+            std::cout << "bit_nand failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'FFFF'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF0;
+
+        test_me.bit_nand();
+
+        if( test_me.registers[0] != 0x5555'5555'5555'5555 ){
+            std::cout << "bit_nand failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'FFFF'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF2;
+
+        test_me.bit_nor();
+
+        if( test_me.registers[2] != 0 ){
+            std::cout << "bit_nor failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'FFFF'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF0;
+
+        test_me.bit_nor();
+
+        if( test_me.registers[0] != 0 ){
+            std::cout << "bit_nor failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'0000'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF2;
+
+        test_me.bit_xor();
+
+        if( test_me.registers[2] != 0x5555'5555'AAAA'5555 ){
+            std::cout << "bit_xor failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'0000'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF0;
+
+        test_me.bit_xor();
+
+        if( test_me.registers[0] != 0x5555'5555'AAAA'5555 ){
+            std::cout << "bit_xor failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+
+        if(false){
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'0000'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF2;
+
+        test_me.bit_xnor();
+
+        if( test_me.registers[2] != 0xAAAA'AAAA'5555'AAAA ){
+            std::cout << "bit_xnor failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'FFFF'0000'FFFF;
+        test_me.registers[1] = 0xAAAA'AAAA'AAAA'AAAA;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0xF0;
+
+        test_me.bit_xnor();
+
+        if( test_me.registers[0] != 0xAAAA'AAAA'5555'AAAA ){
+            std::cout << "bit_xnor failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'0000'FFFF'0000;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+
+        test_me.bit_not();
+
+        if( test_me.registers[1] != 0x0000'FFFF'0000'FFFF ){
+            std::cout << "bit_not failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'0000'FFFF'0000;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x00;
+
+        test_me.bit_not();
+
+        if( test_me.registers[0] != 0x0000'FFFF'0000'FFFF ){
+            std::cout << "bit_not failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+
+        if(false){
+            test_success = false;
+        }
+    }
+
+    return test_success;
+}
+
 bool test_memory_setting(){
 
     bool test_success = true;

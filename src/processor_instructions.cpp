@@ -392,7 +392,7 @@ void processor::bit_nor(){
 
     uint8_t C = get_program_byte()&0xF;
 
-    registers[C] = ~(registers[A]&registers[B]);
+    registers[C] = ~(registers[A]|registers[B]);
 }
 
 void processor::bit_xor(){
@@ -403,6 +403,16 @@ void processor::bit_xor(){
     uint8_t C = get_program_byte()&0xF;
 
     registers[C] = registers[A]^registers[B];
+}
+
+void processor::bit_xnor(){
+    uint8_t src_regs = get_program_byte();
+    uint8_t A = (src_regs >> 4)&0xF;
+    uint8_t B = src_regs&0xF;
+
+    uint8_t C = get_program_byte()&0xF;
+
+    registers[C] = ~(registers[A]^registers[B]);
 }
 
 void processor::bit_not(){
@@ -444,9 +454,21 @@ void processor::shift_right(){
 }
 
 void processor::rotate_left(){
+    uint8_t reg = get_program_byte();
+    uint8_t shift_bits = get_program_byte();
 
+    uint8_t A = (reg >> 4)&0xF;
+    uint8_t B = reg&0xF;
+
+    registers[B] = ( registers[A] << (shift_bits) ) | ( registers[A] >> ( (64-shift_bits)&0x3F) );
 }
 
 void processor::rotate_right(){
+    uint8_t reg = get_program_byte();
+    uint8_t shift_bits = get_program_byte()&0x3F;
 
+    uint8_t A = (reg >> 4)&0xF;
+    uint8_t B = reg&0xF;
+
+    registers[B] = ( registers[A] >> (shift_bits) ) | ( registers[A] << ( (64-shift_bits)&0x3F) );
 }
