@@ -27,6 +27,7 @@ struct processor{
     void set_8_bytes(uint64_t address, uint64_t value);
 
     /**-------------------------- INSTRUCTIONS ---------------------------------**/
+    /**--- MEMORY ---**/
     void move_1();
     void move_2();
     void move_4();
@@ -43,6 +44,55 @@ struct processor{
     void store_2();
     void store_4();
     void store_8();
+    /**--- Control Flow ---**/
+    /// "Absolute" Jumps
+    //relative to program start position
+    void absolute_jump();
+    void absolute_jump_equal_0();
+    void absolute_jump_not_equal_0();
+    void absolute_jump_positive();
+    void absolute_jump_negative();
+    void absolute_jump_not_positive();
+    void absolute_jump_not_negative();
+    void absolute_jump_equal();
+    void absolute_jump_not_equal();
+    void absolute_jump_greater();
+    void absolute_jump_less();
+    void absolute_jump_greater_equal();
+    void absolute_jump_less_equal();
+    /// Relative Jumps - may just be implemented via a flag for jumps
+    // relative to jump instruction
+    void relative_jump();
+    void relative_jump_equal_0();
+    void relative_jump_not_equal_0();
+    void relative_jump_positive();
+    void relative_jump_negative();
+    void relative_jump_not_positive();
+    void relative_jump_not_negative();
+    void relative_jump_equal();
+    void relative_jump_not_equal();
+    void relative_jump_greater();
+    void relative_jump_less();
+    void relative_jump_greater_equal();
+    void relative_jump_less_equal();
+    /**--- Arithmetic ---**/
+    void add();
+    void subtract();
+    void increment();
+    void decrement();
+    void negate();
+    void multiply();
+    void divide();
+    /**--- Bit-Wise ---**/
+    void bit_and();
+    void bit_or();
+    void bit_nand();
+    void bit_nor();
+    void bit_xor();
+    void shift_left();
+    void shift_right();
+    void rotate_left();
+    void rotate_right();
 
     /**-------------------------- MISCELLANEOUS ---------------------------------**/
     void print_registers();
