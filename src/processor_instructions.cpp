@@ -10,13 +10,8 @@ void processor::move_1(){
     uint8_t src_reg = (reg >> 4)&0xF;
     uint8_t dst_reg = reg&0xF;
 
-    uint8_t src_pos = (pos >> 4)&0xF;
-    uint8_t dst_pos = pos&0xF;
-
-    if( src_pos < 0 || src_pos > 7 )
-        return;
-    if( dst_pos < 0 || dst_pos > 7 )
-        return;
+    uint8_t src_pos = (pos >> 4)&0x7;
+    uint8_t dst_pos = pos&0x7;
 
     /// erase bits in the destination position
     uint64_t temp_val = (registers[dst_reg]&~( uint64_t(0xFF)<<(8*dst_pos)) );
@@ -37,13 +32,8 @@ void processor::move_2(){
     uint8_t src_reg = (reg >> 4)&0xF;
     uint8_t dst_reg = reg&0xF;
 
-    uint8_t src_pos = (pos >> 4)&0xF;
-    uint8_t dst_pos = pos&0xF;
-
-    if( src_pos < 0 || src_pos > 3 )
-        return;
-    if( dst_pos < 0 || dst_pos > 3 )
-        return;
+    uint8_t src_pos = (pos >> 4)&0x3;
+    uint8_t dst_pos = pos&0x3;
 
     /// erase bits in the destination position
     uint64_t temp_val = (registers[dst_reg]&~( uint64_t(0xFFFF)<<(16*dst_pos)) );
@@ -64,13 +54,8 @@ void processor::move_4(){
     uint8_t src_reg = (reg >> 4)&0xF;
     uint8_t dst_reg = reg&0xF;
 
-    uint8_t src_pos = (pos >> 4)&0xF;
-    uint8_t dst_pos = pos&0xF;
-
-    if( src_pos < 0 || src_pos > 1 )
-        return;
-    if( dst_pos < 0 || dst_pos > 1 )
-        return;
+    uint8_t src_pos = (pos >> 4)&0x1;
+    uint8_t dst_pos = pos&0x1;
 
     /// erase bits in the destination position
     uint64_t temp_val = (registers[dst_reg]&~( uint64_t(0xFFFF'FFFF)<<(32*dst_pos)) );

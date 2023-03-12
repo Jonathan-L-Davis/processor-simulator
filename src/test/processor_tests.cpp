@@ -50,96 +50,49 @@ bool test_store_instructions(){
 
 bool test_move_1(){
     bool test_success = true;
+    uint32_t num_test_failures = 0;
 
-    //set up involves non-trivial state, every case is a separate block.
-    {//test should succeed with a move from one reg to another
+    for(uint32_t i = 0; i <= 0xFFFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.registers[1] = 0x090A'0B0C'0D0E'0F10;
         test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x01;
-        test_me.main_mem[1] = 0x57;
+
+        uint8_t src_reg = (i>>12)&0xF;
+        uint8_t dst_reg = (i>>8)&0xF;
+
+        uint8_t src_pos = (i>>4)&0x7;
+        uint8_t dst_pos = (i>>0)&0x7;
+
+        test_me.registers[dst_reg] = 0;
+        test_me.registers[src_reg] = 0x0807'0605'0403'0201;
+
+        test_me.main_mem[0] = uint8_t(i>>8);
+        test_me.main_mem[1] = uint8_t(i);
 
         test_me.move_1();
 
-        if( test_me.registers[1] != 0x030A'0B0C'0D0E'0F10 || test_me.registers[0] != 0x0102'0304'0506'0708 ){
+        if( uint8_t( test_me.registers[dst_reg] >> (8*dst_pos) ) != uint8_t( test_me.registers[src_reg] >> (8*src_pos) ) ){
+            num_test_failures++;
 
-            std::cout << "Move 1 moving incorrectly between registers!\n";
-
+            std::cout <<  int(src_reg) << " " << int(src_pos) << " : ";
             std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+             << (uint64_t) test_me.registers[src_reg] << "\n";
+            std::cout <<  int(dst_reg) << " " << int(dst_pos) << " : ";
             std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[1] << "\n";
+             << (uint64_t) test_me.registers[dst_reg] << "\n";
 
+            std::cout << std::hex << std::setw(2) << std::setfill('0')
+             << (int) test_me.main_mem[0];
+            std::cout << std::hex << std::setw(2) << std::setfill('0')
+             << (int) test_me.main_mem[1];
+            std::cout << "\n\n\n";
             test_success = false;
         }
+
     }
 
-    {//move_1 should silently fail with bad pos, all possible registers are valid, don't need to check them
-        processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.registers[1] = 0x090A'0B0C'0D0E'0F10;
-        test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x01;
-        test_me.main_mem[1] = 0xF7;
-
-        test_me.move_1();
-
-        if( test_me.registers[1] != 0x090A'0B0C'0D0E'0F10 || test_me.registers[0] != 0x0102'0304'0506'0708 ){
-
-            std::cout << "Move 1 not failing on bad input!\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[1] << "\n";
-
-            test_success = false;
-        }
-    }
-
-    {//test should succeed with a move from a reg to itself in the same pos - effectively no op
-        processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x00;
-        test_me.main_mem[1] = 0x77;
-
-        test_me.move_1();
-
-        if( test_me.registers[0] != 0x0102'0304'0506'0708 ){
-
-            std::cout << "Move 1 moving incorrectly within same register and position!\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-
-            test_success = false;
-        }
-    }
-
-    {//test should succeed with a move from a reg to itself
-        processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x00;
-        test_me.main_mem[1] = 0x76;
-
-        test_me.move_1();
-
-        if( test_me.registers[0] != 0x0101'0304'0506'0708 ){
-
-            std::cout << "Move 1 moving incorrectly within same register!\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-
-            test_success = false;
-        }
+    if( !test_success ){
+        std::cout << "move_1 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;
@@ -147,96 +100,49 @@ bool test_move_1(){
 
 bool test_move_2(){
     bool test_success = true;
+    uint32_t num_test_failures = 0;
 
-    //set up involves non-trivial state, every case is a separate block.
-    {//test should succeed with a move from one reg to another
+    for(uint32_t i = 0; i <= 0xFFFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.registers[1] = 0x090A'0B0C'0D0E'0F10;
         test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x01;
-        test_me.main_mem[1] = 0x13;
+
+        uint8_t src_reg = (i>>12)&0xF;
+        uint8_t dst_reg = (i>>8)&0xF;
+
+        uint8_t src_pos = (i>>4)&0x3;
+        uint8_t dst_pos = (i>>0)&0x3;
+
+        test_me.registers[dst_reg] = 0;
+        test_me.registers[src_reg] = 0x0807'0605'0403'0201;
+
+        test_me.main_mem[0] = uint8_t(i>>8);
+        test_me.main_mem[1] = uint8_t(i);
 
         test_me.move_2();
 
-        if( test_me.registers[1] != 0x0506'0B0C'0D0E'0F10 || test_me.registers[0] != 0x0102'0304'0506'0708 ){
+        if( uint16_t( test_me.registers[dst_reg] >> (16*dst_pos) ) != uint16_t( test_me.registers[src_reg] >> (16*src_pos) ) ){
+            num_test_failures++;/*
 
-            std::cout << "Move 1 moving incorrectly between registers!\n";
-
+            std::cout <<  int(src_reg) << " " << int(src_pos) << " : ";
             std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+             << (uint64_t) test_me.registers[src_reg] << "\n";
+            std::cout <<  int(dst_reg) << " " << int(dst_pos) << " : ";
             std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[1] << "\n";
+             << (uint64_t) test_me.registers[dst_reg] << "\n";
 
+            std::cout << std::hex << std::setw(2) << std::setfill('0')
+             << (int) test_me.main_mem[0];
+            std::cout << std::hex << std::setw(2) << std::setfill('0')
+             << (int) test_me.main_mem[1];
+            std::cout << "\n\n\n";//*/
             test_success = false;
         }
+
     }
 
-    {//move_2 should silently fail with bad pos, all possible registers are valid, don't need to check them
-        processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.registers[1] = 0x090A'0B0C'0D0E'0F10;
-        test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x01;
-        test_me.main_mem[1] = 0x34;
-
-        test_me.move_2();
-
-        if( test_me.registers[1] != 0x090A'0B0C'0D0E'0F10 || test_me.registers[0] != 0x0102'0304'0506'0708 ){
-
-            std::cout << "Move 1 not failing on bad input!\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[1] << "\n";
-
-            test_success = false;
-        }
-    }
-
-    {//test should succeed with a move from a reg to itself in the same pos - effectively no op
-        processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x00;
-        test_me.main_mem[1] = 0x33;
-
-        test_me.move_2();
-
-        if( test_me.registers[0] != 0x0102'0304'0506'0708 ){
-
-            std::cout << "Move 2 moving incorrectly within same register and position!\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-
-            test_success = false;
-        }
-    }
-
-    {//test should succeed with a move from a reg to itself
-        processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x00;
-        test_me.main_mem[1] = 0x32;
-
-        test_me.move_2();
-
-        if( test_me.registers[0] != 0x0102'0102'0506'0708 ){
-
-            std::cout << "Move 2 moving incorrectly within same register!\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-
-            test_success = false;
-        }
+    if( !test_success ){
+        std::cout << "move_2 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;
@@ -244,96 +150,49 @@ bool test_move_2(){
 
 bool test_move_4(){
     bool test_success = true;
+    uint32_t num_test_failures = 0;
 
-    //set up involves non-trivial state, every case is a separate block.
-    {//test should succeed with a move from one reg to another
+    for(uint32_t i = 0; i <= 0xFFFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.registers[1] = 0x090A'0B0C'0D0E'0F10;
         test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x01;
-        test_me.main_mem[1] = 0x01;
+
+        uint8_t src_reg = (i>>12)&0xF;
+        uint8_t dst_reg = (i>>8)&0xF;
+
+        uint8_t src_pos = (i>>4)&0x1;
+        uint8_t dst_pos = (i>>0)&0x1;
+
+        test_me.registers[dst_reg] = 0;
+        test_me.registers[src_reg] = 0x0807'0605'0403'0201;
+
+        test_me.main_mem[0] = uint8_t(i>>8);
+        test_me.main_mem[1] = uint8_t(i);
 
         test_me.move_4();
 
-        if( test_me.registers[1] != 0x0506'0708'0D0E'0F10 || test_me.registers[0] != 0x0102'0304'0506'0708 ){
+        if( uint32_t( test_me.registers[dst_reg] >> (32*dst_pos) ) != uint32_t( test_me.registers[src_reg] >> (32*src_pos) ) ){
+            num_test_failures++;/*
 
-            std::cout << "Move 1 moving incorrectly between registers!\n";
-
+            std::cout <<  int(src_reg) << " " << int(src_pos) << " : ";
             std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+             << (uint64_t) test_me.registers[src_reg] << "\n";
+            std::cout <<  int(dst_reg) << " " << int(dst_pos) << " : ";
             std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[1] << "\n";
+             << (uint64_t) test_me.registers[dst_reg] << "\n";
 
+            std::cout << std::hex << std::setw(2) << std::setfill('0')
+             << (int) test_me.main_mem[0];
+            std::cout << std::hex << std::setw(2) << std::setfill('0')
+             << (int) test_me.main_mem[1];
+            std::cout << "\n\n\n";//*/
             test_success = false;
         }
+
     }
 
-    {//move_1 should silently fail with bad pos, all possible registers are valid, don't need to check them
-        processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.registers[1] = 0x090A'0B0C'0D0E'0F10;
-        test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x01;
-        test_me.main_mem[1] = 0x12;
-
-        test_me.move_4();
-
-        if( test_me.registers[1] != 0x090A'0B0C'0D0E'0F10 || test_me.registers[0] != 0x0102'0304'0506'0708 ){
-
-            std::cout << "Move 1 not failing on bad input!\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[1] << "\n";
-
-            test_success = false;
-        }
-    }
-
-    {//test should succeed with a move from a reg to itself in the same pos - effectively no op
-        processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x00;
-        test_me.main_mem[1] = 0x11;
-
-        test_me.move_1();
-
-        if( test_me.registers[0] != 0x0102'0304'0506'0708 ){
-
-            std::cout << "Move 4 moving incorrectly within same register and position!\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-
-            test_success = false;
-        }
-    }
-
-    {//test should succeed with a move from a reg to itself
-        processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x00;
-        test_me.main_mem[1] = 0x10;
-
-        test_me.move_4();
-
-        if( test_me.registers[0] != 0x0102'0304'0102'0304 ){
-
-            std::cout << "Move 1 moving incorrectly within same register!\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-
-            test_success = false;
-        }
+    if( !test_success ){
+        std::cout << "move_4 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;
@@ -341,51 +200,46 @@ bool test_move_4(){
 
 bool test_move_8(){
     bool test_success = true;
-    // this test is a little simpler because move8 has no positions, it's just a full register
-    // this eliminates 2 of 4 test cases, test for invalid position, and test for mov into same position
+    uint32_t num_test_failures = 0;
 
-    //set up involves non-trivial state, every case is a separate block.
-    {//test should succeed with a move from one reg to another
+    for(uint32_t i = 0; i <= 0xFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.registers[1] = 0x090A'0B0C'0D0E'0F10;
         test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x01;
 
-        test_me.move_8();
+        uint8_t src_reg = (i>>12)&0xF;
+        uint8_t dst_reg = (i>>8)&0xF;
 
-        if( test_me.registers[1] != 0x0102'0304'0506'0708 || test_me.registers[0] != 0x0102'0304'0506'0708 ){
+        test_me.registers[dst_reg] = 0;
+        test_me.registers[src_reg] = 0x0807'0605'0403'0201;
 
-            std::cout << "Move 8 moving incorrectly between registers!\n";
+        test_me.main_mem[0] = uint8_t(i>>8);
+        test_me.main_mem[1] = uint8_t(i);
 
+        test_me.move_4();
+
+        if( test_me.registers[dst_reg] != test_me.registers[src_reg] ){
+            num_test_failures++;/*
+
+            std::cout <<  int(src_reg) << " " << int(src_pos) << " : ";
             std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+             << (uint64_t) test_me.registers[src_reg] << "\n";
+            std::cout <<  int(dst_reg) << " " << int(dst_pos) << " : ";
             std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[1] << "\n";
+             << (uint64_t) test_me.registers[dst_reg] << "\n";
 
+            std::cout << std::hex << std::setw(2) << std::setfill('0')
+             << (int) test_me.main_mem[0];
+            std::cout << std::hex << std::setw(2) << std::setfill('0')
+             << (int) test_me.main_mem[1];
+            std::cout << "\n\n\n";//*/
             test_success = false;
         }
+
     }
 
-    {//test should succeed with a move from a reg to itself
-        processor test_me;
-
-        test_me.registers[0] = 0x0102'0304'0506'0708;
-        test_me.program_counter = 0;
-        test_me.main_mem[0] = 0x00;
-
-        test_me.move_8();
-
-        if( test_me.registers[0] != 0x0102'0304'0506'0708 ){
-
-            std::cout << "Move 8 moving incorrectly within same register!\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-
-            test_success = false;
-        }
+    if( !test_success ){
+        std::cout << "move_8 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;
