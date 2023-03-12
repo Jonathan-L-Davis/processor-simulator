@@ -1410,8 +1410,136 @@ bool test_bitwise(){
 
     {
         processor test_me;
+        test_me.registers[0] = 0xFFFF'0000'FFFF'0000;
 
-        if(false){
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0x08;
+
+        test_me.shift_left();
+
+        if( test_me.registers[1] != 0xFF00'00FF'FF00'0000 ){
+            std::cout << "left_shift failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'0000'FFFF'0000;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x00;
+        test_me.main_mem[1] = 0x08;
+
+        test_me.shift_left();
+
+        if( test_me.registers[0] != 0xFF00'00FF'FF00'0000 ){
+            std::cout << "left_shift failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'0000'FFFF'0000;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0x08;
+
+        test_me.shift_right();
+
+        if( test_me.registers[1] != 0x00FF'FF00'00FF'FF00 ){
+            std::cout << "right_shift failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xFFFF'0000'FFFF'0000;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x00;
+        test_me.main_mem[1] = 0x08;
+
+        test_me.shift_right();
+
+        if( test_me.registers[0] != 0x00FF'FF00'00FF'FF00 ){
+            std::cout << "right_shift failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xCDEF'0123'4567'89AB;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0x08;
+
+        test_me.rotate_left();
+
+        if( test_me.registers[1] != 0xEF01'2345'6789'ABCD ){
+            std::cout << "rotate_left failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xCDEF'0123'4567'89AB;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x00;
+        test_me.main_mem[1] = 0x08;
+
+        test_me.rotate_left();
+
+        if( test_me.registers[0] != 0xEF01'2345'6789'ABCD ){
+            std::cout << "rotate_left failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xCDEF'0123'4567'89AB;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x01;
+        test_me.main_mem[1] = 0x08;
+
+        test_me.rotate_right();
+
+        if( test_me.registers[1] != 0xABCD'EF01'2345'6789 ){
+            std::cout << "rotate_right failed\n";
+            test_success = false;
+        }
+    }
+
+    {
+        processor test_me;
+        test_me.registers[0] = 0xCDEF'0123'4567'89AB;
+
+        test_me.program_counter = 0;
+
+        test_me.main_mem[0] = 0x00;
+        test_me.main_mem[1] = 0x08;
+
+        test_me.rotate_right();
+
+        if( test_me.registers[0] != 0xABCD'EF01'2345'6789 ){
+            std::cout << "rotate_right failed\n";
             test_success = false;
         }
     }
