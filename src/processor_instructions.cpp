@@ -87,13 +87,8 @@ void processor::swap_1(){
     uint8_t reg_1 = (reg >> 4)&0xF;
     uint8_t reg_2 = reg&0xF;
 
-    uint8_t pos_1 = (pos >> 4)&0xF;
-    uint8_t pos_2 = pos&0xF;
-
-    if( pos_1 < 0 || pos_1 > 7 )
-        return;
-    if( pos_2 < 0 || pos_2 > 7 )
-        return;
+    uint8_t pos_1 = (pos >> 4)&0x7;
+    uint8_t pos_2 = pos&0x7;
 
     /// save relevant bytes
     uint8_t val_1 = registers[reg_1]>>(8*pos_1);
@@ -116,13 +111,8 @@ void processor::swap_2(){
     uint8_t reg_1 = (reg >> 4)&0xF;
     uint8_t reg_2 = reg&0xF;
 
-    uint8_t pos_1 = (pos >> 4)&0xF;
-    uint8_t pos_2 = pos&0xF;
-
-    if( pos_1 < 0 || pos_1 > 3 )
-        return;
-    if( pos_2 < 0 || pos_2 > 3 )
-        return;
+    uint8_t pos_1 = (pos >> 4)&0x3;
+    uint8_t pos_2 = pos&0x3;
 
     /// save relevant bytes
     uint16_t val_1 = registers[reg_1]>>(16*pos_1);
@@ -145,13 +135,8 @@ void processor::swap_4(){
     uint8_t reg_1 = (reg >> 4)&0xF;
     uint8_t reg_2 = reg&0xF;
 
-    uint8_t pos_1 = (pos >> 4)&0xF;
-    uint8_t pos_2 = pos&0xF;
-
-    if( pos_1 < 0 || pos_1 > 1 )
-        return;
-    if( pos_2 < 0 || pos_2 > 1 )
-        return;
+    uint8_t pos_1 = (pos >> 4)&0x1;
+    uint8_t pos_2 = pos&0x1;
 
     /// save relevant bytes
     uint32_t val_1 = registers[reg_1]>>(32*pos_1);
