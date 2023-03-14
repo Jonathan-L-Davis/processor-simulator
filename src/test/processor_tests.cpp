@@ -351,52 +351,38 @@ bool test_swap_8(){
 
 bool test_load_1(){
     bool test_success = true;
+    uint32_t num_test_failures = 0;
 
-    {
+    for(uint32_t i = 0; i <= 0xFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0000'0000'0000'0000;
         test_me.program_counter = 0;
 
-        test_me.main_mem[0] = 0x05;
+        uint8_t reg = (i>>4)&0xF;
+        uint8_t pos = (i)&0x7;
 
-        for( int i = 7; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x07;
+        test_me.main_mem[0] = uint8_t(i);
 
-        test_me.main_mem[7] = 0xFF;
+        for( uint32_t addr = 8; addr < 15; addr++)
+            test_me.main_mem[addr] = 0;
+        test_me.main_mem[15] = 16;
+
+        test_me.main_mem[16] = 0xFF;
+
+        test_me.registers[reg] = 0;
+        uint64_t reg_result = 0|uint64_t(0xFF)<<(8*pos);
 
         test_me.load_1();
 
-        if( test_me.registers[0] != 0x0000'FF00'0000'0000 ){
-            std::cout << "Load 1 failed!\n";
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+        if( test_me.registers[reg] != reg_result ){
+            num_test_failures++;
             test_success = false;
         }
+
     }
 
-    {
-        processor test_me;
-
-        test_me.registers[0] = 0x0000'0000'0000'0000;
-        test_me.program_counter = 0;
-
-        test_me.main_mem[0] = 0x08;
-
-        for( int i = 1; i < 9; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[8] = 0x09;
-        test_me.main_mem[9] = 0xFF;
-
-        test_me.load_1();
-
-        if( test_me.registers[0] != 0x0000'0000'0000'0000 ){
-            std::cout << "Load 1 loaded register when it shouldn't!\n";
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-            test_success = false;
-        }
+    if( !test_success ){
+        std::cout << "load_1 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;
@@ -404,55 +390,39 @@ bool test_load_1(){
 
 bool test_load_2(){
     bool test_success = true;
+    uint32_t num_test_failures = 0;
 
-    {
+    for(uint32_t i = 0; i <= 0xFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0000'0000'0000'0000;
         test_me.program_counter = 0;
 
-        test_me.main_mem[0] = 0x02;
+        uint8_t reg = (i>>4)&0xF;
+        uint8_t pos = (i)&0x3;
 
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x06;
+        test_me.main_mem[0] = uint8_t(i);
 
-        test_me.main_mem[6] = 0xFF;
-        test_me.main_mem[7] = 0xFF;
+        for( uint32_t addr = 8; addr < 15; addr++)
+            test_me.main_mem[addr] = 0;
+        test_me.main_mem[15] = 16;
+
+        test_me.main_mem[16] = 0xFF;
+        test_me.main_mem[17] = 0xFF;
+
+        test_me.registers[reg] = 0;
+        uint64_t reg_result = 0|uint64_t(0xFFFF)<<(16*pos);
 
         test_me.load_2();
 
-        if( test_me.registers[0] != 0x0000'FFFF'0000'0000 ){
-            std::cout << "Load 2 failed!\n";
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+        if( test_me.registers[reg] != reg_result ){
+            num_test_failures++;
             test_success = false;
         }
+
     }
 
-    {
-        processor test_me;
-
-        test_me.registers[0] = 0x0000'0000'0000'0000;
-        test_me.program_counter = 0;
-
-        test_me.main_mem[0] = 0x04;
-
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x06;
-
-        test_me.main_mem[6] = 0xFF;
-        test_me.main_mem[7] = 0xFF;
-
-        test_me.load_2();
-
-        if( test_me.registers[0] != 0x0000'0000'0000'0000 ){
-            std::cout << "Load 1 loaded register when it shouldn't!\n";
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-            test_success = false;
-        }
+    if( !test_success ){
+        std::cout << "load_2 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;
@@ -460,57 +430,41 @@ bool test_load_2(){
 
 bool test_load_4(){
     bool test_success = true;
+    uint32_t num_test_failures = 0;
 
-    {
+    for(uint32_t i = 0; i <= 0xFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0000'0000'0000'0000;
         test_me.program_counter = 0;
 
-        test_me.main_mem[0] = 0x01;
+        uint8_t reg = (i>>4)&0xF;
+        uint8_t pos = (i)&0x1;
 
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x04;
-        test_me.main_mem[4] = 0xFF;
-        test_me.main_mem[5] = 0xFF;
-        test_me.main_mem[6] = 0xFF;
-        test_me.main_mem[7] = 0xFF;
+        test_me.main_mem[0] = uint8_t(i);
+
+        for( uint32_t addr = 8; addr < 15; addr++)
+            test_me.main_mem[addr] = 0;
+        test_me.main_mem[15] = 16;
+
+        test_me.main_mem[16] = 0xFF;
+        test_me.main_mem[17] = 0xFF;
+        test_me.main_mem[18] = 0xFF;
+        test_me.main_mem[19] = 0xFF;
+
+        test_me.registers[reg] = 0;
+        uint64_t reg_result = 0|uint64_t(0xFFFF'FFFF)<<(32*pos);
 
         test_me.load_4();
 
-        if( test_me.registers[0] != 0xFFFF'FFFF'0000'0000 ){
-            std::cout << "Load 4 loaded register when it shouldn't!\n";
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+        if( test_me.registers[reg] != reg_result ){
+            num_test_failures++;
             test_success = false;
         }
+
     }
 
-    {
-        processor test_me;
-
-        test_me.registers[0] = 0x0000'0000'0000'0000;
-        test_me.program_counter = 0;
-
-        test_me.main_mem[0] = 0x02;
-
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x04;
-        test_me.main_mem[4] = 0xFF;
-        test_me.main_mem[5] = 0xFF;
-        test_me.main_mem[6] = 0xFF;
-        test_me.main_mem[7] = 0xFF;
-
-        test_me.load_4();
-
-        if( test_me.registers[0] != 0x0000'0000'0000'0000 ){
-            std::cout << "Load 1 loaded register when it shouldn't!\n";
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-            test_success = false;
-        }
+    if( !test_success ){
+        std::cout << "load_4 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;
@@ -518,18 +472,21 @@ bool test_load_4(){
 
 bool test_load_8(){
     bool test_success = true;
+    uint32_t num_test_failures = 0;
 
-    {
+    for(uint32_t i = 0; i <= 0xFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0000'0000'0000'0000;
         test_me.program_counter = 0;
 
-        test_me.main_mem[0] = 0x01;
+        uint8_t reg = (i>>4)&0xF;
+        uint8_t pos = (i)&0x1;
 
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x10;
+        test_me.main_mem[0] = uint8_t(i);
+
+        for( uint32_t addr = 8; addr < 15; addr++)
+            test_me.main_mem[addr] = 0;
+        test_me.main_mem[15] = 16;
 
         test_me.main_mem[16] = 0xFF;
         test_me.main_mem[17] = 0xFF;
@@ -540,14 +497,23 @@ bool test_load_8(){
         test_me.main_mem[22] = 0xFF;
         test_me.main_mem[23] = 0xFF;
 
+        test_me.registers[reg] = 0;
+        uint64_t reg_result = 0xFFFF'FFFF'FFFF'FFFF;
+
         test_me.load_8();
 
-        if( test_me.registers[0] != 0xFFFF'FFFF'FFFF'FFFF ){
-            std::cout << "Load 8 Loaded incorrectly\n";
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+        if( test_me.registers[reg] != reg_result ){
+            num_test_failures++;
             test_success = false;
+
+            std::cout << (unsigned int) reg << ": " << (unsigned int) pos << ": " << std::hex << std::setw(16) << std::setfill('0')
+             << (uint64_t) test_me.registers[reg] << ":" << std::setw(16) << std::setfill('0') << reg_result << "\n\n";
         }
+
+    }
+
+    if( !test_success ){
+        std::cout << "load_4 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;

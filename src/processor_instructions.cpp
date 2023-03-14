@@ -166,84 +166,59 @@ void processor::swap_8(){
 }
 
 void processor::load_1(){
-
     uint8_t reg_pos = get_program_byte();
 
-    program_counter = (program_counter+8)&~7;// +7 shifts the alignment rounding. &7 makes the pc 8 aligned
-
-    uint64_t address = get_8_bytes( program_counter );
-    program_counter += 8;//step past byte;
+    program_counter += 8;
+    uint64_t address = get_8_PC_bytes();
 
     uint8_t reg = (reg_pos >> 4)&0xF;
-    uint8_t pos = reg_pos&0xF;
-
-    if(pos < 0 || pos > 7)
-        return;
+    uint8_t pos = reg_pos&0x7;
 
     uint8_t value = get_byte(address);
-    registers[reg] &= ~( uint64_t(0xFF)<<(8*sizeof(value)*pos));
+    registers[reg] &= ~( uint64_t(0xFF)<<(8*pos));
 
-    registers[reg] |= uint64_t(value)<<(8*sizeof(value)*pos);
+    registers[reg] |= uint64_t(value)<<(8*pos);
 }
 
 void processor::load_2(){
-
     uint8_t reg_pos = get_program_byte();
 
-    program_counter = (program_counter+8)&~7;// &~7 makes the pc 8 aligned
-
-    uint64_t address = get_8_bytes( program_counter );
-    program_counter += 8;//step past byte;
+    program_counter += 8;
+    uint64_t address = get_8_PC_bytes();
 
     uint8_t reg = (reg_pos >> 4)&0xF;
-    uint8_t pos = reg_pos&0xF;
-
-    if(pos < 0 || pos > 3)
-        return;
+    uint8_t pos = reg_pos&0x3;
 
     uint16_t value = get_2_bytes(address);
-    registers[reg] &= ~( uint64_t(0xFFFF)<<(8*sizeof(value)*pos));
+    registers[reg] &= ~( uint64_t(0xFFFF)<<(16*pos));
 
-    registers[reg] |= uint64_t(value)<<(8*sizeof(value)*pos);
+    registers[reg] |= uint64_t(value)<<(16*pos);
 }
 
 void processor::load_4(){
-
     uint8_t reg_pos = get_program_byte();
 
-    program_counter = (program_counter+8)&~7;// &~7 makes the pc 8 aligned
-
-    uint64_t address = get_8_bytes( program_counter );//get address
-    program_counter += 8;//step past byte;
+    program_counter += 8;
+    uint64_t address = get_8_PC_bytes();
 
     uint8_t reg = (reg_pos >> 4)&0xF;
-    uint8_t pos = reg_pos&0xF;
-
-    if(pos < 0 || pos > 1)
-        return;
+    uint8_t pos = reg_pos&0x1;
 
     uint32_t value = get_4_bytes(address);
-    registers[reg] &= ~( uint64_t(0xFFFF'FFFF)<<(8*sizeof(value)*pos));
+    registers[reg] &= ~( uint64_t(0xFFFF'FFFF)<<(32*pos));
 
-    registers[reg] |= uint64_t(value)<<(8*sizeof(value)*pos);
+    registers[reg] |= uint64_t(value)<<(32*pos);
 }
 
 void processor::load_8(){
-
     uint8_t reg_pos = get_program_byte();
 
-    program_counter = (program_counter+8)&~7;// &~7 makes the pc 8 aligned
-
-    uint64_t address = get_8_bytes( program_counter );//get address
-    program_counter += 8;//step past byte;
+    program_counter += 8;
+    uint64_t address = get_8_PC_bytes();
 
     uint8_t reg = (reg_pos >> 4)&0xF;
-    uint8_t pos = 0;//ignore position for 8 byte values
 
-    uint64_t value = get_8_bytes(address);
-    registers[reg] &= ~( uint64_t(0xFFFF'FFFF'FFFF'FFFF)<<(8*sizeof(value)*pos));
-
-    registers[reg] |= uint64_t(value)<<(8*sizeof(value)*pos);
+    registers[reg] = get_8_bytes(address);
 }
 
 void processor::store_1(){
