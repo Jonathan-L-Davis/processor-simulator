@@ -5,7 +5,7 @@ Emulator for an abstract processor.
 <br>
 planned, not all implemented yet (most are not)<br>
 <br>
-/**--- MEMORY ---**/ (implemented, fail on improper position, will change to not read un needed bits soon.)<br>
+/**--- MEMORY ---**/ (implemented!)<br>
 move_1<br>
 move_2<br>
 move_4<br>
@@ -25,35 +25,23 @@ store_8<br>
 <br>
 /**--- Control Flow ---**/<br>
 /// "Absolute" Jumps<br>
-//relative to program start position<br>
-absolute_jump<br>
-absolute_jump_equal_0<br>
-absolute_jump_not_equal_0<br>
-absolute_jump_positive<br>
-absolute_jump_negative<br>
-absolute_jump_not_positive<br>
-absolute_jump_not_negative<br>
-absolute_jump_equal<br>
-absolute_jump_not_equal<br>
-absolute_jump_greater<br>
-absolute_jump_less<br>
-absolute_jump_greater_equal<br>
-absolute_jump_less_equal<br>
-/// Relative Jumps - may just be implemented via a flag for jumps<br>
-// relative to jump instruction<br>
-relative_jump<br>
-relative_jump_equal_0<br>
-relative_jump_not_equal_0<br>
-relative_jump_positive<br>
-relative_jump_negative<br>
-relative_jump_not_positive<br>
-relative_jump_not_negative<br>
-relative_jump_equal<br>
-relative_jump_not_equal<br>
-relative_jump_greater<br>
-relative_jump_less<br>
-relative_jump_greater_equal<br>
-relative_jump_less_equal<br>
+    relative to program start position<br> 
+    (for now all programs start at physical 0, will change, but is too complicated for me to do in one go)<br>
+/// Relative Jumps - may just be implemented via a prefix/suffix for jumps<br>
+ relative to jump instruction<br>
+jump<br>
+jump_equal_0<br>
+jump_not_equal_0<br>
+jump_positive<br>
+jump_negative<br>
+jump_not_positive<br>
+jump_not_negative<br>
+jump_equal<br>
+jump_not_equal<br>
+jump_greater<br>
+jump_less<br>
+jump_greater_equal<br>
+jump_less_equal<br>
 <br>
 /**--- Arithmetic ---**/<br>
 add<br>
@@ -64,7 +52,7 @@ negate<br>
 multiply<br>
 divide<br>
 <br>
-/**--- Bit-Wise ---**/<br>
+/**--- Bit-Wise ---**/ (implemented!)<br>
 bit_and<br>
 bit_or<br>
 bit_nand<br>
