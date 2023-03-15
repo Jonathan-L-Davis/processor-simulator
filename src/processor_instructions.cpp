@@ -231,10 +231,7 @@ void processor::store_1(){
     program_counter += 8;//step past byte;
 
     uint8_t reg = (reg_pos >> 4)&0xF;
-    uint8_t pos = reg_pos&0xF;
-
-    if(pos < 0 || pos > 7)
-        return;
+    uint8_t pos = reg_pos&0x7;
 
     uint8_t value = ( registers[reg]&(uint64_t(0xFF)<<8*sizeof(value)*pos) )>>8*sizeof(value)*pos;
     set_byte(address, value);
@@ -251,10 +248,7 @@ void processor::store_2(){
     program_counter += 8;//step past byte;
 
     uint8_t reg = (reg_pos >> 4)&0xF;
-    uint8_t pos = reg_pos&0xF;
-
-    if(pos < 0 || pos > 3)
-        return;
+    uint8_t pos = reg_pos&0x3;
 
     uint16_t value = ( registers[reg]&(uint64_t(0xFFFF)<<8*sizeof(value)*pos) )>>8*sizeof(value)*pos;
     set_2_bytes(address, value);
@@ -270,10 +264,7 @@ void processor::store_4(){
     program_counter += 8;//step past byte;
 
     uint8_t reg = (reg_pos >> 4)&0xF;
-    uint8_t pos = reg_pos&0xF;
-
-    if(pos < 0 || pos > 1)
-        return;
+    uint8_t pos = reg_pos&0x1;
 
     uint32_t value = ( registers[reg]&(uint64_t(0xFFFF'FFFF)<<8*sizeof(value)*pos ) )>>8*sizeof(value)*pos;
     set_4_bytes(address, value);

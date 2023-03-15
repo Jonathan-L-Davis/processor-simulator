@@ -33,7 +33,7 @@ int main( int argc, char** argv ){
     test_success &= test_swap_instructions();
     test_success &= test_load_instructions();
     test_success &= test_store_instructions();
-    test_success &= test_bitwise();
+    test_success &= test_bitwise_instructions();
 
     if(test_success)
         std::cout << "All tests passed! :)\n";

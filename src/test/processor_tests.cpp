@@ -521,54 +521,37 @@ bool test_load_8(){
 
 bool test_store_1(){
     bool test_success = true;
+    uint32_t num_test_failures = 0;
 
-    {
+    for(uint32_t i = 0; i <= 0xFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0807'0605'0403'0201;
         test_me.program_counter = 0;
 
-        test_me.main_mem[0] = 0x07;
+        uint8_t reg = (i>>4)&0xF;
+        uint8_t pos = (i)&0x7;
 
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x00;
+        test_me.main_mem[0] = uint8_t(i);
+
+        for( uint32_t addr = 8; addr < 15; addr++)
+            test_me.main_mem[addr] = 0;
+        test_me.main_mem[15] = 16;
+        test_me.main_mem[16] = 0x00;
+
+        test_me.registers[reg] = 0;
+        test_me.registers[reg] |= uint64_t(0xFF)<<(8*pos);
 
         test_me.store_1();
 
-        if( test_me.get_byte(0) != 0x08 ){
-            std::cout << "Store 1 loaded register when it shouldn't!\n";
-            std::cout << std::hex << std::setw(2) << std::setfill('0')
-             << (uint64_t) test_me.get_byte(0) << "\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+        if( test_me.main_mem[16] != 0xFF ){
+            num_test_failures++;
             test_success = false;
         }
+
     }
-    {
-        processor test_me;
 
-        test_me.registers[0] = 0x0807'0605'0403'0201;
-        test_me.program_counter = 0;
-
-        test_me.main_mem[0] = 0x08;
-
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x00;
-
-        test_me.store_1();
-
-        if( test_me.get_byte(0) != 0x08 ){
-            std::cout << "Store 1 stored register when it shouldn't!\n";
-            std::cout << std::hex << std::setw(2) << std::setfill('0')
-             << (uint64_t) test_me.get_byte(0) << "\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-            test_success = false;
-        }
+    if( !test_success ){
+        std::cout << "store_1 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;
@@ -576,56 +559,37 @@ bool test_store_1(){
 
 bool test_store_2(){
     bool test_success = true;
+    uint32_t num_test_failures = 0;
 
-    {
+    for(uint32_t i = 0; i <= 0xFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0807'0605'0403'0201;
         test_me.program_counter = 0;
 
-        test_me.main_mem[0] = 0x03;
-        test_me.main_mem[1] = 0x00;
+        uint8_t reg = (i>>4)&0xF;
+        uint8_t pos = (i)&0x3;
 
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x00;
+        test_me.main_mem[0] = uint8_t(i);
+
+        for( uint32_t addr = 8; addr < 15; addr++)
+            test_me.main_mem[addr] = 0;
+        test_me.main_mem[15] = 16;
+        test_me.main_mem[16] = 0x00;
+
+        test_me.registers[reg] = 0;
+        test_me.registers[reg] |= uint64_t(0xFFFF)<<(16*pos);
 
         test_me.store_2();
 
-        if( test_me.get_2_bytes(0) != 0x0807 ){
-            std::cout << "Store 2 stored register incorrectly!\n";
-            std::cout << std::hex << std::setw(4) << std::setfill('0')
-             << (uint64_t) test_me.get_2_bytes(0) << "\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+        if( test_me.main_mem[16] != 0xFF || test_me.main_mem[17] != 0xFF ){
+            num_test_failures++;
             test_success = false;
         }
+
     }
-    {
-        processor test_me;
 
-        test_me.registers[0] = 0x0807'0605'0403'0201;
-        test_me.program_counter = 0;
-
-        test_me.main_mem[0] = 0x04;
-        test_me.main_mem[1] = 0x00;
-
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x00;
-
-        test_me.store_2();
-
-        if( test_me.get_2_bytes(0) != 0x0400 ){
-            std::cout << "Store 2 stored register when it shouldn't!\n";
-            std::cout << std::hex << std::setw(4) << std::setfill('0')
-             << (uint64_t) test_me.get_2_bytes(0) << "\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-            test_success = false;
-        }
+    if( !test_success ){
+        std::cout << "store_2 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;
@@ -633,60 +597,38 @@ bool test_store_2(){
 
 bool test_store_4(){
     bool test_success = true;
+    uint32_t num_test_failures = 0;
 
-    {
+    for(uint32_t i = 0; i <= 0xFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0807'0605'0403'0201;
         test_me.program_counter = 0;
 
-        test_me.main_mem[0] = 0x01;
-        test_me.main_mem[1] = 0x00;
-        test_me.main_mem[2] = 0x00;
-        test_me.main_mem[3] = 0x00;
+        uint8_t reg = (i>>4)&0xF;
+        uint8_t pos = (i)&0x3;
 
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x00;
+        test_me.main_mem[0] = uint8_t(i);
+
+        for( uint32_t addr = 8; addr < 15; addr++)
+            test_me.main_mem[addr] = 0;
+        test_me.main_mem[15] = 16;
+        test_me.main_mem[16] = 0x00;
+
+        test_me.registers[reg] = 0;
+        test_me.registers[reg] |= uint64_t(0xFFFF'FFFF)<<(32*pos);
 
         test_me.store_4();
 
-        if( test_me.get_4_bytes(0) != 0x0807'0605 ){
-            std::cout << "Store 4 stored register incorrectly!\n";
-            std::cout << std::hex << std::setw(8) << std::setfill('0')
-             << (uint64_t) test_me.get_4_bytes(0) << "\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+        if( test_me.main_mem[16] != 0xFF || test_me.main_mem[17] != 0xFF ||
+            test_me.main_mem[18] != 0xFF || test_me.main_mem[19] != 0xFF ){
+            num_test_failures++;
             test_success = false;
         }
+
     }
-    {
-        processor test_me;
 
-        test_me.registers[0] = 0x0807'0605'0403'0201;
-        test_me.program_counter = 0;
-
-        test_me.main_mem[0] = 0x02;
-        test_me.main_mem[1] = 0x00;
-        test_me.main_mem[2] = 0x00;
-        test_me.main_mem[3] = 0x00;
-
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x00;
-
-        test_me.store_4();
-
-        if( test_me.get_4_bytes(0) != 0x0200'0000 ){
-            std::cout << "Store 4 stored register when it shouldn't!\n";
-            std::cout << std::hex << std::setw(8) << std::setfill('0')
-             << (uint64_t) test_me.get_4_bytes(0) << "\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
-            test_success = false;
-        }
+    if( !test_success ){
+        std::cout << "store_4 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;
@@ -694,43 +636,45 @@ bool test_store_4(){
 
 bool test_store_8(){
     bool test_success = true;
+    uint32_t num_test_failures = 0;
 
-    {
+    for(uint32_t i = 0; i <= 0xFF; i++){
+        //set up
         processor test_me;
-
-        test_me.registers[0] = 0x0807'0605'0403'0201;
         test_me.program_counter = 0;
 
-        test_me.main_mem[0] = 0x01;
-        test_me.main_mem[1] = 0x00;
-        test_me.main_mem[2] = 0x00;
-        test_me.main_mem[3] = 0x00;
-        test_me.main_mem[4] = 0x00;
-        test_me.main_mem[5] = 0x00;
-        test_me.main_mem[6] = 0x00;
-        test_me.main_mem[7] = 0x00;
+        uint8_t reg = (i>>4)&0xF;
+        uint8_t pos = (i)&0x3;
 
-        for( int i = 8; i < 15; i++ )
-            test_me.main_mem[i] = 0;
-        test_me.main_mem[15] = 0x00;
+        test_me.main_mem[0] = uint8_t(i);
+
+        for( uint32_t addr = 8; addr < 15; addr++)
+            test_me.main_mem[addr] = 0;
+        test_me.main_mem[15] = 16;
+        test_me.main_mem[16] = 0x00;
+
+        test_me.registers[reg] = 0xFFFF'FFFF'FFFF'FFFF;
 
         test_me.store_8();
 
-        if( test_me.get_8_bytes(0) != 0x0807'0605'0403'0201 ){
-            std::cout << "Store 4 stored register incorrectly!\n";
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.get_8_bytes(0) << "\n";
-
-            std::cout << std::hex << std::setw(16) << std::setfill('0')
-             << (uint64_t) test_me.registers[0] << "\n";
+        if( test_me.main_mem[16] != 0xFF || test_me.main_mem[17] != 0xFF ||
+            test_me.main_mem[18] != 0xFF || test_me.main_mem[19] != 0xFF ||
+            test_me.main_mem[20] != 0xFF || test_me.main_mem[21] != 0xFF ||
+            test_me.main_mem[22] != 0xFF || test_me.main_mem[23] != 0xFF ){
+            num_test_failures++;
             test_success = false;
         }
+
+    }
+
+    if( !test_success ){
+        std::cout << "store_8 failed unit testing " << num_test_failures << " times!\n";
     }
 
     return test_success;
 }
 
-bool test_bitwise(){
+bool test_bitwise_instructions(){
     bool test_success = true;
 
     {

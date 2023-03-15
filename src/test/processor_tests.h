@@ -36,6 +36,6 @@ bool test_store_2();
 bool test_store_4();
 bool test_store_8();
 
-bool test_bitwise();
+bool test_bitwise_instructions();
 
 #endif//PROCESSOR_TESTS_H
