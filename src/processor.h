@@ -8,7 +8,7 @@ struct processor{
     uint64_t program_counter;
     uint64_t registers[16];
 
-    unsigned char main_mem[1024*1024];
+    unsigned char main_mem[1024];
 
     void cycle();
     uint8_t get_program_byte();

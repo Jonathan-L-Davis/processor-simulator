@@ -41,5 +41,22 @@ int main( int argc, char** argv ){
         std::cout << "Tests failed! :(\n";
 
 
+    {//*
+    processor test_me;
+
+    test_me.registers[0] = 0xFFFF;
+    test_me.registers[1] = 0xFFFF;
+    test_me.registers[2] = 0;
+
+    test_me.program_counter = 0;
+    test_me.main_mem[0] = 0x01;
+    test_me.main_mem[1] = 0x42;
+    test_me.main_mem[2] = 0x00;
+    test_me.add();
+
+    std::cout << std::hex << test_me.registers[2] << "\n";//*/
+    }
+
+
     return 0;
 }

@@ -299,25 +299,51 @@ void processor::add(){
     uint8_t src_reg_2 = src_regs&0xF;
 
     uint8_t dst_reg = dst_regs&0xF;
-    uint8_t sign = (dst_regs>>7)&0x1;
+    uint8_t sign = (dst_regs>>7)&0x1;//ignored, may remove
     uint8_t is_vector = (dst_regs>>6)&0x1;
-    //uint8_t is_? = (dst_regs>>5)&0x1;
-    //uint8_t is_? = (dst_regs>>4)&0x1;
+    uint8_t size = (dst_regs>>4)&0x3;
 
-    uint8_t vector_byte = 0;
-    //[  2b() 2b(size, 0 -> 1 byte, 1 -> 2 byte, 2 -> 4 byte, 3 -> 8 byte ) 1b(is single <value> flag) 3b(position)]
     if( is_vector ){
-        vector_byte = get_program_byte();
 
-        // oh boy, this is gonna be a lot of work
-        // just gonna do normal addition for now
-
+        switch( size ){//uint8_t
+            case 0:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 8; i++){
+                    answer |= hardware_2comp_add(
+                            uint8_t(registers[src_reg_1]>>(8*i)),
+                            uint8_t(registers[src_reg_2]>>(8*i))
+                        ) << (8*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 1:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 4; i++){
+                    answer |= hardware_2comp_add(
+                            uint16_t(registers[src_reg_1]>>(16*i)),
+                            uint16_t(registers[src_reg_2]>>(16*i))
+                        ) << (16*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 2:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 2; i++){
+                    answer |= hardware_2comp_add(
+                            uint32_t(registers[src_reg_1]>>(32*i)),
+                            uint32_t(registers[src_reg_2]>>(32*i))
+                        ) << (32*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 3:{
+                registers[dst_reg] = hardware_2comp_add(registers[src_reg_1],registers[src_reg_2]);
+            }break;
+        }
         return;
     }
 
     registers[dst_reg] = hardware_2comp_add(registers[src_reg_1],registers[src_reg_2]);
-
-    //uint64_t answer =
 
 }
 
