@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <hardware_functions.h>
 
 void processor::move_1(){
     uint8_t reg = get_program_byte();
@@ -289,6 +290,60 @@ void processor::store_8(){
 /** Control Flow **/
 
 /** Arithmetic **/
+void processor::add(){
+
+    uint8_t src_regs = get_program_byte();
+    uint8_t dst_regs = get_program_byte();
+
+    uint8_t src_reg_1 = (src_regs>>4)&0xF;
+    uint8_t src_reg_2 = src_regs&0xF;
+
+    uint8_t dst_reg = dst_regs&0xF;
+    uint8_t sign = (dst_regs>>7)&0x1;
+    uint8_t is_vector = (dst_regs>>6)&0x1;
+    //uint8_t is_? = (dst_regs>>5)&0x1;
+    //uint8_t is_? = (dst_regs>>4)&0x1;
+
+    uint8_t vector_byte = 0;
+    //[  2b() 2b(size, 0 -> 1 byte, 1 -> 2 byte, 2 -> 4 byte, 3 -> 8 byte ) 1b(is single <value> flag) 3b(position)]
+    if( is_vector ){
+        vector_byte = get_program_byte();
+
+        // oh boy, this is gonna be a lot of work
+        // just gonna do normal addition for now
+
+        return;
+    }
+
+    registers[dst_reg] = hardware_2comp_add(registers[src_reg_1],registers[src_reg_2]);
+
+    //uint64_t answer =
+
+}
+
+void processor::subtract(){
+
+}
+
+void processor::increment(){
+
+}
+
+void processor::decrement(){
+
+}
+
+void processor::negate(){
+
+}
+
+void processor::multiply(){
+
+}
+
+void processor::divide(){
+
+}
 
 /** Bit-Wise **/
 void processor::bit_and(){
