@@ -352,7 +352,6 @@ void processor::subtract(){
     uint8_t src_reg_2 = src_regs&0xF;
 
     uint8_t dst_reg = dst_regs&0xF;
-    uint8_t sign = (dst_regs>>7)&0x1;//ignored, may remove
     uint8_t is_vector = (dst_regs>>6)&0x1;
     uint8_t size = (dst_regs>>4)&0x3;
 
@@ -459,10 +458,8 @@ void processor::decrement(){
     uint8_t dst_regs = get_program_byte();
 
     uint8_t src_reg_1 = (src_regs>>4)&0xF;
-    uint8_t src_reg_2 = src_regs&0xF;
 
     uint8_t dst_reg = dst_regs&0xF;
-    uint8_t sign = (dst_regs>>7)&0x1;//ignored, may remove
     uint8_t is_vector = (dst_regs>>6)&0x1;
     uint8_t size = (dst_regs>>4)&0x3;
 
