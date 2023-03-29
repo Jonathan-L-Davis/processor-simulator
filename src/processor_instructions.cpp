@@ -280,7 +280,6 @@ void processor::store_8(){
     program_counter += 8;//step past byte;
 
     uint8_t reg = (reg_pos >> 4)&0xF;
-    uint8_t pos = 0;
 
     uint64_t value = registers[reg];
     set_8_bytes(address, value);
@@ -402,10 +401,112 @@ void processor::subtract(){
 
 void processor::increment(){
 
+    uint8_t src_regs = get_program_byte();
+    uint8_t dst_regs = get_program_byte();
+
+    uint8_t src_reg_1 = (src_regs>>4)&0xF;
+
+    uint8_t dst_reg = dst_regs&0xF;
+    uint8_t is_vector = (dst_regs>>6)&0x1;
+    uint8_t size = (dst_regs>>4)&0x3;
+
+    if( is_vector ){
+
+        switch( size ){
+            case 0:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 8; i++){
+                    answer |= (uint64_t)uint8_t(
+                            uint8_t(registers[src_reg_1]>>(8*i)) +
+                            uint8_t(1)
+                        ) << (8*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 1:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 4; i++){
+                    answer |= (uint64_t)uint16_t(
+                            uint16_t(registers[src_reg_1]>>(16*i)) +
+                            uint16_t(1)
+                        ) << (16*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 2:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 2; i++){
+                    answer |= (uint64_t)uint32_t(
+                            uint32_t(registers[src_reg_1]>>(32*i)) +
+                            uint32_t(1)
+                        ) << (32*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 3:{
+                registers[dst_reg] = registers[src_reg_1]+uint64_t(1);
+            }break;
+        }
+        return;
+    }
+
+    registers[dst_reg] = registers[src_reg_1]+uint64_t(1);
 }
 
 void processor::decrement(){
 
+    uint8_t src_regs = get_program_byte();
+    uint8_t dst_regs = get_program_byte();
+
+    uint8_t src_reg_1 = (src_regs>>4)&0xF;
+    uint8_t src_reg_2 = src_regs&0xF;
+
+    uint8_t dst_reg = dst_regs&0xF;
+    uint8_t sign = (dst_regs>>7)&0x1;//ignored, may remove
+    uint8_t is_vector = (dst_regs>>6)&0x1;
+    uint8_t size = (dst_regs>>4)&0x3;
+
+    if( is_vector ){
+
+        switch( size ){
+            case 0:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 8; i++){
+                    answer |= (uint64_t)uint8_t(
+                            uint8_t(registers[src_reg_1]>>(8*i)) +
+                           ~uint8_t(1) + 1
+                        ) << (8*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 1:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 4; i++){
+                    answer |= (uint64_t)uint16_t(
+                            uint16_t(registers[src_reg_1]>>(16*i)) +
+                           ~uint16_t(1) + 1
+                        ) << (16*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 2:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 2; i++){
+                    answer |= (uint64_t)uint32_t(
+                            uint32_t(registers[src_reg_1]>>(32*i)) +
+                           ~uint32_t(1) + 1
+                        ) << (32*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 3:{
+                registers[dst_reg] = registers[src_reg_1]+~uint64_t(1)+uint64_t(1);
+            }break;
+        }
+        return;
+    }
+
+    registers[dst_reg] = registers[src_reg_1]+~uint64_t(1)+uint64_t(1);
 }
 
 void processor::negate(){

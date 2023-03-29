@@ -3,7 +3,6 @@
 #include "processor.h"
 #include "test/processor_tests.h"
 
-#include "hardware_functions.h"
 
 bool is_big_endian(void)
 {//thx stack overflow
@@ -45,14 +44,14 @@ int main( int argc, char** argv ){
     {//*
     processor test_me;
 
-    test_me.registers[0] = 1;
+    test_me.registers[0] = 0xFFFF'FFFF'FFFF'FFFF;
     test_me.registers[1] = 52;
     test_me.registers[2] = 0;
 
     test_me.program_counter = 0;
     test_me.main_mem[0] = 0x01;
     test_me.main_mem[1] = 0x42;
-    test_me.subtract();
+    test_me.decrement();
 
     std::cout << std::dec << test_me.registers[2] << "\n";
     std::cout << std::hex << test_me.registers[2] << "\n";//*/
