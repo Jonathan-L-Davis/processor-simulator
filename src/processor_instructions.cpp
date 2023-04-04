@@ -376,7 +376,7 @@ void processor::jump(){
         program_counter += offset_size;
     }
     else{
-
+        program_counter = offset_size;
     }
 
 }
