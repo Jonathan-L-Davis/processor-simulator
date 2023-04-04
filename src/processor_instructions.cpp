@@ -286,6 +286,104 @@ void processor::store_8(){
 }
 
 /** Control Flow **/
+void processor::jump(){
+    uint8_t meta_byte = get_program_byte();
+    //types of jump to allow
+    /**
+        1-bit
+        relative to current instruction location
+        absolute (relative to prog start, 0x0 until OS-like behavior is implemented
+
+        1-bit
+        direct (pre-computed, lays in source <machine> code)
+        indirect (based on register value) if indirect must take in extra byte for reg & position
+
+        4-bit
+            wasted
+
+        2-bit
+            indicates jump address/distance size
+            0b00 == 1 byte
+            0b01 == 2 byte
+            0b10 == 4 byte
+            0b11 == 8 byte
+
+        Indirect only byte
+
+        3-bit
+            reg-pos
+            used for indirect jumps,
+            3 bits for size 1 byte
+            2 bits for size 2 byte
+            1 bits for size 4 byte
+
+        4-bit
+            register
+
+    **/
+
+    uint8_t is_relative = (meta_byte>>7)&0x1;
+    uint8_t is_indirect = (meta_byte>>6)&0x1;
+    uint8_t offset_size = 1<<( (meta_byte>>0)&0x3 );
+
+    int64_t jump_offset = 0;
+
+    if( !is_indirect ){
+        switch( offset_size ){
+            case 1:{
+                offset_size = get_program_byte();
+            }break;
+            case 2:{
+                program_counter += 1;
+                offset_size = get_2_PC_bytes();
+            }break;
+            case 4:{
+                program_counter += 3;
+                offset_size = get_4_PC_bytes();
+            }break;
+            case 8:{
+                program_counter += 7;
+                offset_size = get_8_PC_bytes();
+            }break;
+        }
+    }
+    else{
+        uint8_t indirect_byte = get_program_byte();
+        uint8_t position = (indirect_byte>>4)&0x7;//grab offset from register at position
+        uint8_t reg = (indirect_byte>>0)&0xF;
+
+        switch( offset_size ){
+            case 1:{
+                position &= 0x7;
+                offset_size = uint8_t(registers[reg]>>position);
+            }break;
+            case 2:{
+                position &= 0x3;
+                offset_size = uint8_t(registers[reg]>>position);
+            }break;
+            case 4:{
+                position &= 0x1;
+                offset_size = uint8_t(registers[reg]>>position);
+            }break;
+            case 8:{
+                position &= 0x0;
+                offset_size = uint8_t(registers[reg]>>position);
+            }break;
+        }
+    }
+
+    if( is_relative ){
+        program_counter += offset_size;
+    }
+    else{
+
+    }
+
+}
+
+void processor::conditional_jump(){
+
+}
 
 /** Arithmetic **/
 void processor::add(){
