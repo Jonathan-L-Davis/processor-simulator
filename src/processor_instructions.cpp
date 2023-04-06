@@ -360,19 +360,24 @@ void processor::jump(){
         switch( offset_size ){
             case 1:{
                 position &= 0x7;
-                jump_offset = uint8_t(registers[reg]>>position);
+                jump_offset = uint8_t(registers[reg]>>(8*position));
+                if( jump_offset>>7 )
+                    jump_offset |= 0xFFFF'FFFF'FFFF'FF00;
             }break;
             case 2:{
                 position &= 0x3;
-                jump_offset = uint8_t(registers[reg]>>position);
+                jump_offset = uint16_t(registers[reg]>>(16*position));
+                if( jump_offset>>15 )
+                    jump_offset |= 0xFFFF'FFFF'FFFF'0000;
             }break;
             case 4:{
                 position &= 0x1;
-                jump_offset = uint8_t(registers[reg]>>position);
+                jump_offset = uint32_t(registers[reg]>>(32*position));
+                if( jump_offset>>31 )
+                    jump_offset |= 0xFFFF'FFFF'0000'0000;
             }break;
             case 8:{
-                position &= 0x0;
-                jump_offset = uint8_t(registers[reg]>>position);
+                jump_offset = registers[reg];
             }break;
         }
     }
@@ -460,41 +465,50 @@ void processor::conditional_jump(){
         switch( offset_size ){
             case 1:{
                 position &= 0x7;
-                offset_size = uint8_t(registers[reg]>>position);
+                jump_offset = uint8_t(registers[reg]>>(8*position));
+                if( jump_offset>>7 )
+                    jump_offset |= 0xFFFF'FFFF'FFFF'FF00;
             }break;
             case 2:{
                 position &= 0x3;
-                offset_size = uint8_t(registers[reg]>>position);
+                jump_offset = uint16_t(registers[reg]>>(16*position));
+                if( jump_offset>>15 )
+                    jump_offset |= 0xFFFF'FFFF'FFFF'0000;
             }break;
             case 4:{
                 position &= 0x1;
-                offset_size = uint8_t(registers[reg]>>position);
+                jump_offset = uint32_t(registers[reg]>>(32*position));
+                if( jump_offset>>31 )
+                    jump_offset |= 0xFFFF'FFFF'0000'0000;
             }break;
             case 8:{
                 position &= 0x0;
-                offset_size = uint8_t(registers[reg]>>position);
+                jump_offset = registers[reg];
             }break;
         }
     }
 
     //decode the jump type
+    uint8_t src_regs = get_program_byte();
+    uint8_t reg_1 = (src_regs>>4)&0xF;
+    uint8_t reg_2 = (src_regs>>0)&0xF;
     switch( (meta_byte>>2)&0xF ){
-        case 0x0:{if(!(registers[0]==0))return;}break;
-        case 0x1:{}break;
-        case 0x2:{}break;
-        case 0x3:{}break;
-        case 0x4:{}break;
-        case 0x5:{}break;
-        case 0x6:{}break;
-        case 0x7:{}break;
-        case 0x8:{}break;
-        case 0x9:{}break;
-        case 0xA:{}break;
-        case 0xB:{}break;
-        case 0xC:{}break;
-        case 0xD:{}break;
-        case 0xE:{}break;
-        case 0xF:{}break;
+        case 0x0:{if(!(registers[reg_1]==0))return;}break;
+        case 0x1:{if(!(registers[reg_1]!=0))return;}break;
+        case 0x2:{if(!(registers[reg_1] <0))return;}break;
+        case 0x3:{if(!(registers[reg_1] >0))return;}break;
+        case 0x4:{if(!(registers[reg_1]<=0))return;}break;
+        case 0x5:{if(!(registers[reg_1]>=0))return;}break;
+        case 0x6:{return;}break;
+        case 0x7:{return;}break;
+        case 0x8:{if(!(registers[reg_1]==registers[reg_2]))return;}break;
+        case 0x9:{if(!(registers[reg_1]!=registers[reg_2]))return;}break;
+        case 0xA:{if(!(registers[reg_1] <registers[reg_2]))return;}break;
+        case 0xB:{if(!(registers[reg_1] >registers[reg_2]))return;}break;
+        case 0xC:{if(!(registers[reg_1]<=registers[reg_2]))return;}break;
+        case 0xD:{if(!(registers[reg_1]>=registers[reg_2]))return;}break;
+        case 0xE:{return;}break;
+        case 0xF:{return;}break;
 
         default:return;
     }

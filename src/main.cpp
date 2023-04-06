@@ -55,6 +55,7 @@ int main( int argc, char** argv ){
 
     std::cout << std::dec << test_me.registers[2] << "\n";
     std::cout << std::hex << test_me.registers[2] << "\n";//*/
+    std::cout << std::hex << ( (~uint64_t(0) )&uint8_t(0) ) << "\n";
     }
 
     return 0;
