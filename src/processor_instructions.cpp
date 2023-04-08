@@ -336,19 +336,19 @@ void processor::jump(){
     if( !is_indirect ){
         switch( offset_size ){
             case 1:{
-                offset_size = get_program_byte();
+                jump_offset = get_program_byte();
             }break;
             case 2:{
                 program_counter += 1;
-                offset_size = get_2_PC_bytes();
+                jump_offset = get_2_PC_bytes();
             }break;
             case 4:{
                 program_counter += 3;
-                offset_size = get_4_PC_bytes();
+                jump_offset = get_4_PC_bytes();
             }break;
             case 8:{
                 program_counter += 7;
-                offset_size = get_8_PC_bytes();
+                jump_offset = get_8_PC_bytes();
             }break;
         }
     }

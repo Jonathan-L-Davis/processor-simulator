@@ -49,13 +49,16 @@ int main( int argc, char** argv ){
     test_me.registers[2] = 0;
 
     test_me.program_counter = 0;
-    test_me.main_mem[0] = 0x01;
+    test_me.main_mem[0] = 0x02;
     test_me.main_mem[1] = 0x42;
-    test_me.decrement();
+    test_me.main_mem[4] = 0x00;
+    test_me.main_mem[5] = 0x00;
+    test_me.main_mem[6] = 0x80;
+    test_me.main_mem[7] = 0x00;
+    test_me.conditional_jump();
 
-    std::cout << std::dec << test_me.registers[2] << "\n";
-    std::cout << std::hex << test_me.registers[2] << "\n";//*/
-    std::cout << std::hex << ( (~uint64_t(0) )&uint8_t(0) ) << "\n";
+    std::cout << std::dec << test_me.program_counter << "\n";
+    std::cout << std::hex << test_me.program_counter << "\n";//*/
     }
 
     return 0;
