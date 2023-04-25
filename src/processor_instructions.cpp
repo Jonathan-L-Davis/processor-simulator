@@ -796,6 +796,29 @@ void processor::multiply(){
 // really hard to make defined at bit level in c++
 // I would rather write this in VHDL
 // but oh well
+
+// actually not so bad, need to make 128 bit for overflow
+
+    uint8_t src_regs = get_program_byte();
+    uint8_t dst_regs = get_program_byte();
+    uint8_t meta_bits = get_program_byte();
+
+    uint8_t src_reg_1 = (src_regs>>4)&0xF;
+    uint8_t src_reg_2 = src_regs&0xF;
+
+    uint8_t dst_reg_high = (dst_regs>>4)&0xF;
+    uint8_t dst_reg_low = dst_regs&0xF;
+    //uint8_t is_vector = (dst_regs>>6)&0x1;
+    uint8_t size = (dst_regs>>4)&0x3;
+
+    uint64_t result = 0;
+
+    for( int i = 0; i < sizeof(uint64_t)*8; i++ ) {
+        result += ( (registers[src_reg_1]>>i)&0b1 )?(registers[src_reg_2]<<i):0;
+    }
+
+
+    registers[dst_reg_low] = result;
 }
 
 void processor::divide(){
