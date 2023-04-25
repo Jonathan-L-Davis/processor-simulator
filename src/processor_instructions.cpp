@@ -743,14 +743,65 @@ void processor::decrement(){
 
 void processor::negate(){
 
+    uint8_t src_regs = get_program_byte();
+    uint8_t dst_regs = get_program_byte();
+
+    uint8_t src_reg_1 = (src_regs>>4)&0xF;
+
+    uint8_t dst_reg = dst_regs&0xF;
+    uint8_t is_vector = (dst_regs>>6)&0x1;
+    uint8_t size = (dst_regs>>4)&0x3;
+
+    if( is_vector ){
+
+        switch( size ){
+            case 0:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 8; i++){
+                    answer |= (uint64_t)uint8_t(
+                            ~uint8_t(registers[src_reg_1]>>(8*i)) + 1
+                        ) << (8*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 1:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 4; i++){
+                    answer |= (uint64_t)uint16_t(
+                            ~uint16_t(registers[src_reg_1]>>(16*i)) + 1
+                        ) << (16*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 2:{
+                uint64_t answer = 0;
+                for( int i = 0; i < 2; i++){
+                    answer |= (uint64_t)uint32_t(
+                            ~uint32_t(registers[src_reg_1]>>(32*i)) + 1
+                        ) << (32*i);
+                }
+                registers[dst_reg] = answer;
+            }break;
+            case 3:{
+                registers[dst_reg] = ~registers[src_reg_1]+uint64_t(1);
+            }break;
+        }
+        return;
+    }
+
+    registers[dst_reg] = registers[src_reg_1]+uint64_t(1);
 }
 
 void processor::multiply(){
-
+// really hard to make defined at bit level in c++
+// I would rather write this in VHDL
+// but oh well
 }
 
 void processor::divide(){
-
+// really hard to make defined at bit level in c++
+// I would rather write this in VHDL
+// but oh well
 }
 
 /** Bit-Wise **/
