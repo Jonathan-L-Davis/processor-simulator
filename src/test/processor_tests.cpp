@@ -677,6 +677,24 @@ bool test_store_8(){
 bool test_bitwise_instructions(){
     bool test_success = true;
 
+    test_success &= test_bit_and();
+    test_success &= test_bit_or();
+    test_success &= test_bit_nand();
+    test_success &= test_bit_nor();
+    test_success &= test_bit_xor();
+    test_success &= test_bit_xnor();
+    test_success &= test_bit_not();
+    test_success &= test_shift_left();
+    test_success &= test_shift_right();
+    test_success &= test_rotate_left();
+    test_success &= test_shift_right();
+
+    return test_success;
+}
+
+bool test_bit_and(){
+    bool test_success = true;
+
     {
         processor test_me;
         test_me.registers[0] = 0xFFFF'FFFF'FFFF'FFFF;
@@ -712,6 +730,12 @@ bool test_bitwise_instructions(){
             test_success = false;
         }
     }
+
+    return test_success;
+}
+
+bool test_bit_or(){
+    bool test_success = true;
 
     {
         processor test_me;
@@ -749,6 +773,12 @@ bool test_bitwise_instructions(){
         }
     }
 
+    return test_success;
+}
+
+bool test_bit_nand(){
+    bool test_success = true;
+
     {
         processor test_me;
         test_me.registers[0] = 0xFFFF'FFFF'FFFF'FFFF;
@@ -784,6 +814,12 @@ bool test_bitwise_instructions(){
             test_success = false;
         }
     }
+
+    return test_success;
+}
+
+bool test_bit_nor(){
+    bool test_success = true;
 
     {
         processor test_me;
@@ -821,6 +857,12 @@ bool test_bitwise_instructions(){
         }
     }
 
+    return test_success;
+}
+
+bool test_bit_xor(){
+    bool test_success = true;
+
     {
         processor test_me;
         test_me.registers[0] = 0xFFFF'FFFF'0000'FFFF;
@@ -857,13 +899,11 @@ bool test_bitwise_instructions(){
         }
     }
 
-    {
-        processor test_me;
+    return test_success;
+}
 
-        if(false){
-            test_success = false;
-        }
-    }
+bool test_bit_xnor(){
+    bool test_success = true;
 
     {
         processor test_me;
@@ -901,6 +941,12 @@ bool test_bitwise_instructions(){
         }
     }
 
+    return test_success;
+}
+
+bool test_bit_not(){
+    bool test_success = true;
+
     {
         processor test_me;
         test_me.registers[0] = 0xFFFF'0000'FFFF'0000;
@@ -932,6 +978,12 @@ bool test_bitwise_instructions(){
             test_success = false;
         }
     }
+
+    return test_success;
+}
+
+bool test_shift_left(){
+    bool test_success = true;
 
     {
         processor test_me;
@@ -967,6 +1019,12 @@ bool test_bitwise_instructions(){
         }
     }
 
+    return test_success;
+}
+
+bool test_shift_right(){
+    bool test_success = true;
+
     {
         processor test_me;
         test_me.registers[0] = 0xFFFF'0000'FFFF'0000;
@@ -1001,6 +1059,12 @@ bool test_bitwise_instructions(){
         }
     }
 
+    return test_success;
+}
+
+bool test_rotate_left(){
+    bool test_success = true;
+
     {
         processor test_me;
         test_me.registers[0] = 0xCDEF'0123'4567'89AB;
@@ -1034,6 +1098,12 @@ bool test_bitwise_instructions(){
             test_success = false;
         }
     }
+
+    return test_success;
+}
+
+bool test_rotate_right(){
+    bool test_success = true;
 
     {
         processor test_me;
