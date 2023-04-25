@@ -1,9 +1,17 @@
 # Processor Simulator
 
-Emulator for an abstract processor.
+almost done with first phase of this project.<br>
+2 instructions left, multiply and divide.<br>
+<br>
+after that I will intermittently work on the unit testing for all instructins<br>
+<br>
+once I am ready to move on to the next phase I will write the documentation<br>
+and start integrating into a website/server/miniOS(glorified loader & scheduler)<br>
+for running user programs against each other. "Assembly Gladiators!"<br>
+
+
 ### Instructions:
 <br>
-planned, not all implemented yet (most are not)<br>
 <br>
 /**--- MEMORY ---**/ (implemented!)<br>
 move_1<br>
@@ -49,8 +57,8 @@ subtract<br>
 increment<br>
 decrement<br>
 negate<br>
-multiply<br>
-divide<br>
+multiply<br> X
+divide<br>   X
 <br>
 /**--- Bit-Wise ---**/ (implemented!)<br>
 bit_and<br>
