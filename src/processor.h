@@ -28,6 +28,7 @@ struct processor{
 
     /**-------------------------- INSTRUCTIONS ---------------------------------**/
     /**--- MEMORY ---**/
+    /** impl ✓ : test ✓ **/
     void move_1();
     void move_2();
     void move_4();
@@ -45,17 +46,20 @@ struct processor{
     void store_4();
     void store_8();
     /**--- Control Flow ---**/
+    /** impl ✓ : test ✗ **/
     void jump();
     void conditional_jump();
     /**--- Arithmetic ---**/
+    /** impl ✗ : test ✗ **/
     void add();
     void subtract();
     void increment();
     void decrement();
-    void negate();
-    void multiply();
-    void divide();
+    void negate();//✗
+    void multiply();//✗
+    void divide();//✗
     /**--- Bit-Wise ---**/
+    /** impl ✓ : test ✓ **/
     void bit_and();
     void bit_or();
     void bit_nand();

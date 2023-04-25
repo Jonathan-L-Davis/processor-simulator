@@ -38,4 +38,16 @@ bool test_store_8();
 
 bool test_bitwise_instructions();
 
+bool test_bit_and();
+bool test_bit_or();
+bool test_bit_nand();
+bool test_bit_nor();
+bool test_bit_xor();
+bool test_bit_xnor();
+bool test_bit_not();
+bool test_shift_left();
+bool test_shift_right();
+bool test_rotate_left();
+bool test_rotate_right();
+
 #endif//PROCESSOR_TESTS_H
