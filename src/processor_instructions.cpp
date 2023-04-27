@@ -1,5 +1,7 @@
 #include "processor.h"
 
+#include "misc/uint128_t.h"
+
 #include <iostream>
 #include <iomanip>
 
@@ -809,16 +811,21 @@ void processor::multiply(){
     uint8_t dst_reg_high = (dst_regs>>4)&0xF;
     uint8_t dst_reg_low = dst_regs&0xF;
     //uint8_t is_vector = (dst_regs>>6)&0x1;
-    uint8_t size = (dst_regs>>4)&0x3;
+    uint8_t use_high = (meta_bits>>1)&0x1;
+    uint8_t use_low = (meta_bits>>0)&0x1;
 
-    uint64_t result = 0;
+    //uint128_t result = {0,0};// uint128 is part of a library I'm writing, will include in a minute
+    //will use booths algo with a large int type
 
-    for( int i = 0; i < sizeof(uint64_t)*8; i++ ) {
+    /*for( int i = 0; i < sizeof(uint64_t)*8; i++ ) {
         result += ( (registers[src_reg_1]>>i)&0b1 )?(registers[src_reg_2]<<i):0;
-    }
+    }//*/
 
-
-    registers[dst_reg_low] = result;
+    /*
+    if(use_high)
+        registers[dst_reg_high] = result_high;
+    if(use_low)
+        registers[dst_reg_low] = result_low;//*/
 }
 
 void processor::divide(){

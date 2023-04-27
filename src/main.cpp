@@ -44,22 +44,22 @@ int main( int argc, char** argv ){
     {//*
     processor test_me;
 
-    test_me.registers[0] = 5;
+    test_me.registers[0] = -1;
     test_me.registers[1] = 52;
     test_me.registers[2] = 0;
+    test_me.registers[3] = 0;
 
     test_me.program_counter = 0;
     test_me.main_mem[0] = 0x01;
-    test_me.main_mem[1] = 0x22;
-    test_me.main_mem[4] = 0x00;
+    test_me.main_mem[1] = 0x32;
+    test_me.main_mem[2] = 0x03;
     test_me.main_mem[5] = 0x00;
     test_me.main_mem[6] = 0x80;
     test_me.main_mem[7] = 0x00;
     test_me.multiply();
 
-    std::cout << std::dec << test_me.registers[2] << "\n";
-    std::cout << std::hex << test_me.registers[2] << "\n";//*/
-    std::cout << std::dec << 5*52 << "\n";
+    std::cout << std::dec << (signed) test_me.registers[2] << "\n";
+    std::cout << std::dec << (signed) test_me.registers[3] << "\n";//*/
     }
 
     return 0;
