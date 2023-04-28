@@ -1,13 +1,17 @@
 # Processor Simulator
 
-almost done with first phase of this project.<br>
-~~2~~ 1 instruction~~s~~ left, ~~multiply and~~ divide.<br>
-<br>
-after that I will intermittently work on the unit testing for all instructins<br>
-<br>
-once I am ready to move on to the next phase I will write the documentation<br>
-and start integrating into a website/server/miniOS(glorified loader & scheduler)<br>
+
+
+Done for the time being, next steps include Documentation and Unit testing.<br>
+need to write vector ops for division and multiplication too,<br>
+but that will likely wait until someone complains.<br>
+<BR>
+Final plans will involve integrating into a website<br>
+writing a server & miniOS (glorified loader & scheduler)<br>
 for running user programs against each other. "Assembly Gladiators!"<br>
+<br>
+all projects of similar size on their own<br>
+will do slowly over the next year.<br>
 
 
 ### Instructions:
@@ -58,7 +62,7 @@ increment<br>
 decrement<br>
 negate<br>
 multiply<br>
-divide X<br>
+divide<br>
 <br>
 /**--- Bit-Wise ---**/ (implemented!)<br>
 bit_and<br>
