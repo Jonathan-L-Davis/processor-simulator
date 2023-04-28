@@ -1,7 +1,7 @@
 # Processor Simulator
 
 almost done with first phase of this project.<br>
-2 instructions left, multiply and divide.<br>
+~~2~~ 1 instruction~~s~~ left, ~~multiply and~~ divide.<br>
 <br>
 after that I will intermittently work on the unit testing for all instructins<br>
 <br>
@@ -57,8 +57,8 @@ subtract<br>
 increment<br>
 decrement<br>
 negate<br>
-multiply<br> X
-divide<br>   X
+multiply<br>
+divide X<br>
 <br>
 /**--- Bit-Wise ---**/ (implemented!)<br>
 bit_and<br>
