@@ -2,6 +2,7 @@
 
 #include "processor.h"
 #include "test/processor_tests.h"
+#include "misc/uint128_t.h"
 
 
 bool is_big_endian(void)
@@ -44,8 +45,8 @@ int main( int argc, char** argv ){
     {//*
     processor test_me;
 
-    test_me.registers[0] = -1;
-    test_me.registers[1] = 52;
+    test_me.registers[0] = -5;
+    test_me.registers[1] = -25;
     test_me.registers[2] = 0;
     test_me.registers[3] = 0;
 
@@ -53,13 +54,15 @@ int main( int argc, char** argv ){
     test_me.main_mem[0] = 0x01;
     test_me.main_mem[1] = 0x32;
     test_me.main_mem[2] = 0x03;
-    test_me.main_mem[5] = 0x00;
-    test_me.main_mem[6] = 0x80;
-    test_me.main_mem[7] = 0x00;
     test_me.multiply();
 
-    std::cout << std::dec << (signed) test_me.registers[2] << "\n";
-    std::cout << std::dec << (signed) test_me.registers[3] << "\n";//*/
+    //uint128_t A{0,0},B{0,1};
+
+    //A += B<<0;
+
+
+    std::cout << std::dec << (signed) test_me.registers[3] << " " << (signed) test_me.registers[2] << "\n";
+    //std::cout << std::dec << (signed) A.raw_values[0] << " " << (signed) A.raw_values[1] << "\n";//*/
     }
 
     return 0;

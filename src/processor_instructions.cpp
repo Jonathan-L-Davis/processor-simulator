@@ -814,18 +814,38 @@ void processor::multiply(){
     uint8_t use_high = (meta_bits>>1)&0x1;
     uint8_t use_low = (meta_bits>>0)&0x1;
 
-    //uint128_t result = {0,0};// uint128 is part of a library I'm writing, will include in a minute
-    //will use booths algo with a large int type
+    bool is_negative = (registers[src_reg_1]>>63)^(registers[src_reg_2]>>63);
 
-    /*for( int i = 0; i < sizeof(uint64_t)*8; i++ ) {
-        result += ( (registers[src_reg_1]>>i)&0b1 )?(registers[src_reg_2]<<i):0;
+    uint128_t result = {0,0};
+    uint64_t A = registers[src_reg_1];
+    uint64_t _B =  registers[src_reg_2];
+
+    //will use booths algo with a large int type
+    //except we convert to unsigned and then to signed.
+    //ik it's weird, but I had bugs otherwise
+    //c++ integer handling is a special kind of hell
+
+    if(A>>63)
+        A = ~A+1;
+    if(_B>>63)
+        _B = ~_B+1;
+    uint128_t B{0,_B};
+
+    for( uint64_t i = 0; i < 64; i++ ) {
+        result += ( ( (A>>i)&0x1 )?(B<<i):uint128_t{0,0} );
     }//*/
 
-    /*
+    if( is_negative ){
+        result.raw_values[0] = ~result.raw_values[0];
+        result.raw_values[1] = ~result.raw_values[1];
+        result += {0,1};
+    }
+
+    ///*
     if(use_high)
-        registers[dst_reg_high] = result_high;
+        registers[dst_reg_high] = result.raw_values[0];
     if(use_low)
-        registers[dst_reg_low] = result_low;//*/
+        registers[dst_reg_low] = result.raw_values[1];//*/
 }
 
 void processor::divide(){
