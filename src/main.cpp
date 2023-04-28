@@ -54,11 +54,13 @@ int main( int argc, char** argv ){
     test_me.main_mem[0] = 0x01;
     test_me.main_mem[1] = 0x32;
     test_me.main_mem[2] = 0x03;
-    test_me.multiply();
+
+    test_me.divide();
 
     //uint128_t A{0,0},B{0,1};
 
     //A += B<<0;
+    std::cout << -5%-25 << "\n";
 
 
     std::cout << std::dec << (signed) test_me.registers[3] << " " << (signed) test_me.registers[2] << "\n";

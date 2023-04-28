@@ -795,12 +795,6 @@ void processor::negate(){
 }
 
 void processor::multiply(){
-// really hard to make defined at bit level in c++
-// I would rather write this in VHDL
-// but oh well
-
-// actually not so bad, need to make 128 bit for overflow
-
     uint8_t src_regs = get_program_byte();
     uint8_t dst_regs = get_program_byte();
     uint8_t meta_bits = get_program_byte();
@@ -849,9 +843,44 @@ void processor::multiply(){
 }
 
 void processor::divide(){
-// really hard to make defined at bit level in c++
-// I would rather write this in VHDL
-// but oh well
+    uint8_t src_regs = get_program_byte();
+    uint8_t dst_regs = get_program_byte();
+    uint8_t meta_bits = get_program_byte();
+
+    uint8_t src_numerator = (src_regs>>4)&0xF;
+    uint8_t src_denominator = src_regs&0xF;
+
+    uint8_t dst_quotient = (dst_regs>>4)&0xF;
+    uint8_t dst_modulo = dst_regs&0xF;
+    //uint8_t is_vector = (dst_regs>>6)&0x1;
+    uint8_t use_quotient = (meta_bits>>1)&0x1;
+    uint8_t use_modulo = (meta_bits>>0)&0x1;
+
+    bool is_negative = (registers[src_numerator]>>63)^(registers[src_denominator]>>63);
+
+    //not a great way to handle div by 0 error, oh well
+    uint64_t Numerator = registers[src_numerator];
+    uint64_t Denominator =  registers[src_denominator]?registers[src_denominator]:1;
+
+
+    if(Numerator>>63)
+        Numerator = ~Numerator+1;
+    if(Denominator>>63)
+        Denominator = ~Denominator+1;
+
+    uint64_t quotient = Numerator/Denominator;
+    uint64_t modulo   = Numerator%Denominator;
+
+    if( is_negative ){
+        quotient = ~quotient+1;
+        modulo = ~modulo+1;
+    }
+
+    //not even trying to do myself - NOPE!
+    if(use_quotient)
+        registers[dst_quotient] = quotient;
+    if(use_modulo)
+        registers[dst_modulo] = modulo;
 }
 
 /** Bit-Wise **/
